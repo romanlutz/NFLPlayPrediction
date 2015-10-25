@@ -1,0 +1,36 @@
+Features
+=========
+
+* Team
+* Quarter
+* Time
+* Field position
+* Down
+* Yards to go
+* Shotgun formation (0/1)
+* Pass (0/1)
+* Side
+  -> Pass: left / middle / right
+  -> Run: left end / left tackle / left guard / middle / right guard / right tackle / right end
+* Pass length (short / deep)
+* Yards
+* Complete (0/1)
+* Intercepted (0/1)
+* First-Down (0/1)
+* Touchdown (0/1)
+* QB Run (0/1)
+
+
+Ignored plays
+=============
+* Kickoffs
+* Field Goals
+* Extra Points
+* Two-Point Conversions
+* Punts
+* Sacks
+* Fumbles
+* Spikes, Knees
+* Plays with penalties
+* Delay of game
+* Timeouts
