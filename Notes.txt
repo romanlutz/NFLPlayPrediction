@@ -13,12 +13,13 @@ Features
   -> Pass: left / middle / right
   -> Run: left end / left tackle / left guard / middle / right guard / right tackle / right end
 * Pass length (short / deep)
-* Yards
-* Complete (0/1)
-* Intercepted (0/1)
-* First-Down (0/1)
-* Touchdown (0/1)
 * QB Run (0/1)
+
+
+Labels
+======
+Success (First down or Touchdown)
+Yards
 
 
 Ignored plays
