@@ -2,6 +2,7 @@ Features
 =========
 
 * Team
+* Opponent
 * Quarter
 * Time
 * Field position
