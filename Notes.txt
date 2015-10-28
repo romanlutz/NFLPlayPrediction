@@ -36,3 +36,4 @@ Ignored plays
 * Plays with penalties
 * Delay of game
 * Timeouts
+--> Two-minute-warning is missing! Additonally maybe even booth review, official timeout
