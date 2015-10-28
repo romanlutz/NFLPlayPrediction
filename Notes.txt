@@ -15,6 +15,7 @@ Features
 * Pass length (short / deep)
 * QB Run (0/1)
 
+ideas for further features: Timeouts left (I can probably write a little script to extract that information if it's not available)
 
 Labels
 ======
@@ -29,7 +30,7 @@ Ignored plays
 * Extra Points
 * Two-Point Conversions
 * Punts
-* Sacks
+* Sacks --> can we really ignore that? 
 * Fumbles
 * Spikes, Knees
 * Plays with penalties
