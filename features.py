@@ -14,6 +14,8 @@ def extract_features(start_year, end_year):
     success_cnt = 0
 
     for year in range(start_year, end_year + 1):
+        # split into individual weeks in order to avoid having to load
+        # large chunks of data at once
         for week in range(1, 18):
             games = nflgame.games(year, week=week)
 
@@ -23,11 +25,16 @@ def extract_features(start_year, end_year):
                 yards = 0
                 desc = ''
 
-                # TODO: include sacks?
+                # TODO: include sacks? probably not since we can't assign them to any play option
                 # TODO: time as time left in half?
                 # TODO: Additonally maybe even booth review, official timeout?
+                # TODO: Fumble plays should count as if Fumble didn't happen?
+                # TODO: plays with declined penalties should be counted ((4:52) A.Foster right tackle to HOU 43 for 13 yards (J.Cyprien). Penalty on JAC-S.Marks, Defensive Offside, declined.)
+                # TODO: plays with accepted penalties that do not nullify the play should be counted (keyword: No Play)
+                # TODO: error with group when using 2013
+                # TODO: Should we count Def. Pass Interference? Def. Holding?
 
-                if (play.note == None or play.note== 'TD' or play.note=='INT') \
+                if (play.note == None or play.note == 'TD' or play.note =='INT') \
                     and (' punt' not in play.desc) \
                     and ('END ' != play.desc[:4]) \
                     and ('End ' != play.desc[:4]) \
@@ -147,5 +154,32 @@ def extract_features(start_year, end_year):
                 #    print 'SUCCESS:',success,'| YARDS:',yards
                 #    print "############################################################"
 
-            success_labels = np.array(success_labels)
-            print len(play_features)
+                '''
+                # Some debug code (Roman)
+                else:
+                    if 'Timeout' not in play.desc and \
+                                    'kicks' not in play.desc and \
+                                    'kneels' not in play.desc and \
+                                    'Field Goal' not in play.desc and\
+                                    'field goal' not in play.desc and\
+                                    'Two-Minute-Warning' not in play.desc and \
+                                    'END' not in play.desc and\
+                                    'Two-Point' not in play.desc and\
+                                    'TWO-POINT' not in play.desc and\
+                                    'Two-Minute' not in play.desc and\
+                                    'punts' not in play.desc and\
+                                    'Punt' not in play.desc and\
+                                    'spiked' not in play.desc and\
+                                    'extra point' not in play.desc and\
+                                    'False Start' not in play.desc and\
+                                    'Delay of Game' not in play.desc and\
+                                    'No Play' not in play.desc and\
+                                    'BLOCKED' not in play.desc and\
+                                    'FUMBLES' not in play.desc and\
+                                    'sacked' not in play.desc:
+                        print play.desc
+                '''
+
+    print len(play_features)
+
+    return np.array(play_features), np.array(success_labels), np.array(yard_labels)
