@@ -1,0 +1,14 @@
+1. Motivation (Roman)
+What's the problem? Why is it interesting? What results do we expect?
+
+2. Data (Roman)
+What dataset do we use? How does the API work? 
+Examples
+
+3. Approach (Valentin)
+Feature extraction: What features do we use? What plays are ignored?
+Prediction: Probability of success? What's a success?
+Which play has the highest probability of success in a certain situation?
+
+4. ML Methods (Valentin)
+What classifier do we use? How do we evaluate our results?
