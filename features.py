@@ -11,6 +11,7 @@ def extract_features(start_year, end_year):
     play_features = []
     success_labels = []
     yard_labels = []
+    progress_labels = []
     success_cnt = 0
 
     for year in range(start_year, end_year + 1):
@@ -135,16 +136,29 @@ def extract_features(start_year, end_year):
 
                         if (play.note=='INT') or ('INTERCEPTED' in desc) :
                             success = 0
-                        elif (play.touchdown == True) and (' fumble' not in play.desc):
-                            success = 1
-                            success_cnt += 1
-                        elif (yards >= play.yards_togo):
-                            success = 1
-                            success_cnt += 1
+                        else:
+                            if (play.touchdown == True) and (' fumble' not in play.desc):
+                                success = 1
+                                success_cnt += 1
+                            elif yards >= play.yards_togo:
+                                success = 1
+                                success_cnt += 1
+
+                            # progress label calculation
+                            if yards < play.yards_togo:
+                                if play.down > 2:
+                                    progress = 0
+                                elif play.down == 2:
+                                    progress = float(yards) / float(play.yards_togo)
+                                else: # 1st down - two attempts left
+                                    progress = float(yards) * 2.0 / float(play.yards_togo)
+                            else:
+                                progress = 1 + float(yards - play.yards_togo) / 10.0
 
                     play_features.append(features)
                     success_labels.append(success)
                     yard_labels.append(yards)
+                    progress_labels.append(progress)
 
                 # Debug information
                 #if random.randint(0,1000) < 2:
@@ -182,4 +196,4 @@ def extract_features(start_year, end_year):
 
     print len(play_features)
 
-    return np.array(play_features), np.array(success_labels), np.array(yard_labels)
+    return np.array(play_features), np.array(success_labels), np.array(yard_labels), np.array(progress_labels)
