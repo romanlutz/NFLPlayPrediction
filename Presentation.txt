@@ -12,3 +12,16 @@ Which play has the highest probability of success in a certain situation?
 
 4. ML Methods (Valentin)
 What classifier do we use? How do we evaluate our results?
+Classification (Success / Fail): SVM
+Regression (Yards): SVR
+Dimensionality reduction: PCA
+Prediction: Play with highest probability of success
+Evaluation: k-fold cross validation
+
+
+5. Timeline (Valentin)
+About 5 weeks
+-> Now: Feature extraction
+-> 2 weeks: Finish basic implementation 
+-> 4 weeks: Evaluating results, Comparing different classifiers, Parameter tuning, Writing report
+-> Finishing Report, Presentation
