@@ -1,9 +1,13 @@
 1. Motivation (Roman)
 What's the problem? Why is it interesting? What results do we expect?
+Based on the statistics of the last 6 NFL seasons, we'll try to predict the outcome of a play based on the situation and under the assumption of a certain play. This way, one could plug in every possible play and predict the best play to choose.
+Possible applications include participation in NFL call the play or even NFL Offensive Coordinators could use our prediction tool to find out what kind of play is the most promising.
 
 2. Data (Roman)
 What dataset do we use? How does the API work? 
-Examples
+nflgame API gets data directly from NFL.com
+format: (DEN, DEN 22, Q4, 3 and 8) (4:42) (Shotgun) P.Manning pass short left to D.Thomas for 78 yards, TOUCHDOWN. Penalty on BAL-E.Dumervil, Defensive Offside, declined.
+After filtering out irrelevant plays (special teams, "No Play"), we extracted information from the strings about the play. The labels show the success of the play, i.e. TD or not, how many yards, first down or not, possibly a combination of these (as a real value).
 
 3. Approach (Valentin)
 Feature extraction: What features do we use? What plays are ignored?
@@ -12,10 +16,10 @@ Which play has the highest probability of success in a certain situation?
 
 4. ML Methods (Valentin)
 What classifier do we use? How do we evaluate our results?
-Classification (Success / Fail): SVM
-Regression (Yards): SVR
+Classification (Success / Fail): SVM, Nearest Neighbors, Decision Trees, Logistic Regression, Neural Nets
+Regression (Yards): SVR, Neural Nets, Linear Regression
 Dimensionality reduction: PCA
-Prediction: Play with highest probability of success
+Prediction: Play with highest probability (or score?) of success
 Evaluation: k-fold cross validation
 
 
