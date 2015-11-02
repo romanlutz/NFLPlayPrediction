@@ -7,6 +7,24 @@ Possible applications include participation in NFL call the play or even NFL Off
 What dataset do we use? How does the API work? 
 nflgame API gets data directly from NFL.com
 format: (DEN, DEN 22, Q4, 3 and 8) (4:42) (Shotgun) P.Manning pass short left to D.Thomas for 78 yards, TOUCHDOWN. Penalty on BAL-E.Dumervil, Defensive Offside, declined.
+
+Features
+=========
+* Team
+* Opponent
+* Quarter
+* Time
+* Field position
+* Down
+* Yards to go
+* Shotgun formation (0/1)
+* Pass (0/1)
+* Side
+  -> Pass: left / middle / right
+  -> Run: left end / left tackle / left guard / middle / right guard / right tackle / right end
+* Pass length (short / deep)
+* QB Run (0/1)
+
 After filtering out irrelevant plays (special teams, "No Play"), we extracted information from the strings about the play. The labels show the success of the play, i.e. TD or not, how many yards, first down or not, possibly a combination of these (as a real value).
 
 3. Approach (Valentin)
