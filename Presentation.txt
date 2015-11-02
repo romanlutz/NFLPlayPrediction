@@ -25,7 +25,7 @@ Evaluation: k-fold cross validation
 
 5. Timeline (Valentin)
 About 5 weeks
--> Now: Feature extraction
+-> Now: Concept, Feature extraction
 -> 2 weeks: Finish basic implementation 
 -> 4 weeks: Evaluating results, Comparing different classifiers, Parameter tuning, Writing report
--> Finishing Report, Presentation
+-> Due: Finishing Report, Presentation
