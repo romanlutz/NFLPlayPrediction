@@ -23,16 +23,16 @@ def compare_RBF_parameters(features, true_labels):
 	vector = vec.fit_transform(features).toarray()
 	#Consider replacing the above with FeatureHasher for faster computation?
 	parameters =	{
-			'C': [pow(2,x) for x in range(-5,10,2)], #Possible error weights for the SVM.
-			'gamma': [pow(2,x) for x in range(-15,3,3)] #Possible gamma values for the SVM.	
+			'C': [pow(2,x) for x in range(-3,15,2)], #Possible error weights for the SVM.
+			'gamma': [pow(2,x) for x in range(-7,7,2)] #Possible gamma values for the SVM.	
 			}
-	search = GridSearchCV(SVC(), parameters, cv=5, n_jobs=-1, verbose=1)
+	search = GridSearchCV(SVC(), parameters, cv=3, n_jobs=-1, verbose=1)
 	search.fit(vector, true_labels)
 	print "Best Estimator:"
-	print results.best_estimator_
+	print search.best_estimator_
 	print
 	print "Parameters:"
-	print results.best_params_
+	print search.best_params_
 	print
 	print "Score:"
-	print results.best_score_
+	print search.best_score_
