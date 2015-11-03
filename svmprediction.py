@@ -26,7 +26,7 @@ def compare_RBF_parameters(features, true_labels):
 			'C': [pow(2,x) for x in range(-5,10,2)], #Possible error weights for the SVM.
 			'gamma': [pow(2,x) for x in range(-15,3,3)] #Possible gamma values for the SVM.	
 			}
-	search = GridSearchCV(SVC(), parameters, cv=5, n_jobs=2, verbose=1)
+	search = GridSearchCV(SVC(), parameters, cv=5, n_jobs=-1, verbose=1)
 	search.fit(vector, true_labels)
 	print "Best Estimator:"
 	print results.best_estimator_
