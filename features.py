@@ -1,11 +1,12 @@
 #Load games
-
+from __future__ import division
 import nflgame
 
 # Extract features
 import re
 from collections import defaultdict
 import numpy as np
+
 
 def extract_features(start_year, end_year):
     play_features = []
@@ -27,7 +28,6 @@ def extract_features(start_year, end_year):
                 desc = ''
 
                 # TODO: include sacks? probably not since we can't assign them to any play option
-                # TODO: time as time left in half?
                 # TODO: Additonally maybe even booth review, official timeout?
                 # TODO: Fumble plays should count as if Fumble didn't happen?
                 # TODO: plays with declined penalties should be counted ((4:52) A.Foster right tackle to HOU 43 for 13 yards (J.Cyprien). Penalty on JAC-S.Marks, Defensive Offside, declined.)
@@ -57,8 +57,16 @@ def extract_features(start_year, end_year):
                     else:
                         features['opponent'] = play.drive.game.away
                     timeclock = play.time.clock.split(':')
+                    
                     features['time'] = float(timeclock[0])*60 + float(timeclock[1])
-                    features['quarter'] = play.time.qtr
+                    if (play.time.qtr == 1) or (play.time.qtr == 3):
+                        features['time'] += 15*60                        
+                 
+                    if play.time.qtr <= 2:
+                        features['half'] = 1
+                    else:
+                        features['half'] = 2
+                    
                     features['position'] = 50-play.yardline.offset
                     features['down'] = play.down
                     features['togo'] = play.yards_togo
@@ -121,18 +129,18 @@ def extract_features(start_year, end_year):
                             features['pass'] = 0
                             if 'up the middle' in desc:
                                 features['side'] = 'middle'
-                            else:
-                                rematch = re.search(r'^\S+ (scrambles )?\S+ \S+', desc)
-                                if rematch is None:
-                                    print desc
-                                    print play.desc
+                            else:               
+                                rematch = re.search(r'^\S+ (scrambles )?\S+ \S+', desc) 
                                 offset = 0
                                 match = rematch.group(0).split()
                                 if match[1] == 'scrambles':
                                     features['qbrun'] = 1
                                     offset = 1
 
-                                features['side'] = match[1+offset] + ' ' + match[2+offset]
+                                if match[2+offset] == "guard":
+                                    features['side'] = 'middle'
+                                else:
+                                    features['side'] = match[1+offset]
 
                         if (play.note=='INT') or ('INTERCEPTED' in desc) :
                             success = 0
@@ -197,3 +205,14 @@ def extract_features(start_year, end_year):
     print len(play_features)
 
     return np.array(play_features), np.array(success_labels), np.array(yard_labels), np.array(progress_labels)
+
+
+# Encode categorical features
+# Returns encoded features and the encoder
+def encode_categorical_features(features):
+    from sklearn.feature_extraction import DictVectorizer
+
+    enc = DictVectorizer()
+    enc.fit(features)  
+    svm_features = enc.transform(features)
+    return svm_features,enc
