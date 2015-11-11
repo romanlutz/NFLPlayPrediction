@@ -1,3 +1,9 @@
 In order to use our NFL Play Prediction, you will need to install the nflgame API with the following command:
 
 sudo pip install nflgame
+
+Another requirement is the scikit-learn package for Machine Learning operations:
+
+sudo pip install scikit-learn
+
+If you already have numpy and scipy installed, use the -U option in the previous command.
