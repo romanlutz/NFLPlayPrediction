@@ -49,7 +49,8 @@ def extract_features(start_year, end_year):
                     and ('sacked at' not in play.desc)\
                     and ('Punt formation' not in play.desc)\
                     and ('Direct snap to' not in play.desc)\
-                    and ('Aborted' not in play.desc):
+                    and ('Aborted' not in play.desc)\
+                    and ('temporary suspension of play' not in play.desc):
 
                     features['team'] = play.team
                     if play.drive.game.away == play.team:
@@ -74,16 +75,40 @@ def extract_features(start_year, end_year):
                     if 'Shotgun' in play.desc:
                         features['shotgun'] = 1
 
-                    sentences = play.desc.split('. ')
+                    full_desc = play.desc
+                    full_desc = full_desc.replace('No. ','No.')
+                    while (re.search(r" [A-Z]\. ", full_desc) is not None):
+                        match = re.search(r" [A-Z]\. ", full_desc).group(0)
+                        full_desc = full_desc.replace(match,match.rstrip())
+                        
+                    sentences = full_desc.split('. ')
                     for i in range(len(sentences)):
-                        if 'reported in as eligible' in sentences[i]:
+                        
+                        if ('as eligible (Shotgun) ' in sentences[i]):
+                            sentences[i] = re.sub(r"^.+ \(Shotgun\) ", "", sentences[i]).strip()
+  
+                        if (re.search(r' eligible \S+\.\S+ ', sentences[i]) is not None):
+                            sentences[i] = re.sub(r"^.+ eligible ", "", sentences[i]).strip()
+                            
+                        if ' as eligible' in sentences[i]:
+                            continue       
+                            
+                        if 'was injured during the play' in sentences[i]:
                             continue
+                            
 
-                        if (re.search(r'in at QB$', desc) is not None):
+                        if (re.search(r' at QB$', sentences[i]) is not None):
                             continue
 
                         if ' in at QB' in sentences[i]:
                             sentences[i] = re.sub(r"^.+ in at QB", "", sentences[i]).strip()
+                            
+                        if ' report as eligible' in sentences[i]:
+                            sentences[i] = re.sub(r"^.+ report as eligible", "", sentences[i]).strip()
+                            
+                        if ('at QB' in sentences[i]) and ('at WR' in sentences[i]):
+                            #QB and WR switched positions
+                            continue
 
                         desc = sentences[i]
                         desc = re.sub(r"\(.+?\)", "", desc).strip()
@@ -93,10 +118,20 @@ def extract_features(start_year, end_year):
 
                         if ((i<len(sentences)-1) and (sentences[i+1][:3] == 'to ')):
                             desc = desc + '.' + re.sub(r"\(.+?\)", "", sentences[i+1]).strip()
+                            
+                        if ' in at QB' in desc:
+                            desc = ''
+                            continue
+                        if ' eligible' in desc:
+                            desc = ''
+                            continue
 
                         if (re.search(r'^\S+\.\S+ ', desc) is not None):
                             break
-
+                    
+                    if desc == '':
+                        continue
+                        
 
                     if 'incomplete' in desc:
                         features['pass'] = 1
@@ -115,6 +150,9 @@ def extract_features(start_year, end_year):
                         else:
                             if (play.note!='INT') and ('INTERCEPTED' not in desc):
                                 rematch = re.search(r'[-]?[0-9]+ yard\s?', desc)
+                                if rematch is None:
+                                    print desc
+                                    print play.desc
                                 match = rematch.group(0)
                                 yards = float(match[:match.find(' ')])
 
