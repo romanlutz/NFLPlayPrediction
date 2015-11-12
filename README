@@ -8,6 +8,6 @@ sudo pip install scikit-learn
 
 If you already have numpy and scipy installed, use the -U option in the previous command.
 
-If you want to use the tensorflow (Google Neural Network) package, you need to run this first:
+If you want to use the Neural Network prediction, you need to run this first:
 
-sudo pip install https://storage.googleapis.com/tensorflow/mac/tensorflow-0.5.0-py2-none-any.whl
+easy_install pybrain

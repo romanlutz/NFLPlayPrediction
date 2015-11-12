@@ -250,10 +250,10 @@ def extract_features(start_year, end_year):
 
 # Encode categorical features
 # Returns encoded features and the encoder
-def encode_categorical_features(features):
+def encode_categorical_features(features, sparse=True):
     from sklearn.feature_extraction import DictVectorizer
 
-    enc = DictVectorizer()
+    enc = DictVectorizer(sparse=sparse)
     enc.fit(features)  
     svm_features = enc.transform(features)
-    return svm_features,enc
+    return svm_features, enc
