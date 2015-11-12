@@ -82,8 +82,7 @@ def extract_features(start_year, end_year):
                         full_desc = full_desc.replace(match,match.rstrip())
                         
                     sentences = full_desc.split('. ')
-                    for i in range(len(sentences)):
-                        
+                    for i in range(len(sentences)):                            
                         if ('as eligible (Shotgun) ' in sentences[i]):
                             sentences[i] = re.sub(r"^.+ \(Shotgun\) ", "", sentences[i]).strip()
   
@@ -112,12 +111,15 @@ def extract_features(start_year, end_year):
 
                         desc = sentences[i]
                         desc = re.sub(r"\(.+?\)", "", desc).strip()
-
-                        if ((re.search(r'to \S+$', desc) is not None) or (re.search(r'^\S+$', desc) is not None)) and (i<len(sentences)-1):
+                        
+                        if ((re.search(r'to \w+$', desc) is not None) or (re.search(r'^\w+$', desc) is not None)) and (i<len(sentences)-1):
                             desc = desc + '.' + re.sub(r"\(.+?\)", "", sentences[i+1]).strip()
+                            
 
                         if ((i<len(sentences)-1) and (sentences[i+1][:3] == 'to ')):
                             desc = desc + '.' + re.sub(r"\(.+?\)", "", sentences[i+1]).strip()
+                            
+                        
                             
                         if ' in at QB' in desc:
                             desc = ''
@@ -207,9 +209,10 @@ def extract_features(start_year, end_year):
                     progress_labels.append(progress)
 
                 # Debug information
+                #import random
                 #if random.randint(0,1000) < 2:
                 #    print desc
-                #    print p.desc
+                #    print play.desc
                 #    print features
                 #    print 'SUCCESS:',success,'| YARDS:',yards
                 #    print "############################################################"
