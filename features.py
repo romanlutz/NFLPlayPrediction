@@ -50,7 +50,14 @@ def extract_features(start_year, end_year):
                     and ('Punt formation' not in play.desc)\
                     and ('Direct snap to' not in play.desc)\
                     and ('Aborted' not in play.desc)\
-                    and ('temporary suspension of play' not in play.desc):
+                    and ('temporary suspension of play' not in play.desc)\
+                    and ('TWO-POINT CONVERSION ATTEMPT' not in play.desc)\
+                    and ('warned for substitution infraction' not in play.desc)\
+                    and ('no play run - clock started' not in play.desc)\
+                    and ('challenged the first down ruling' not in play.desc)\
+                    and ('*** play under review ***' not in play.desc)\
+                    and ('Direct Snap' not in play.desc)\
+                    and ('Direct snap' not in play.desc): 
 
                     features['team'] = play.team
                     if play.drive.game.away == play.team:
@@ -80,9 +87,51 @@ def extract_features(start_year, end_year):
                     while (re.search(r" [A-Z]\. ", full_desc) is not None):
                         match = re.search(r" [A-Z]\. ", full_desc).group(0)
                         full_desc = full_desc.replace(match,match.rstrip())
+                    if(re.search(r"[^\.] \(Shotgun\)", full_desc) is not None):
+                        full_desc = full_desc.replace(" (Shotgun)",". (Shotgun)") 
+                        
+                    if(re.search(r" a[st] QB for the \w+ ", full_desc) is not None):
+                        match = re.search(r" a[st] QB for the \w+ ", full_desc).group(0)
+                        full_desc = full_desc.replace(match,match.rstrip() + '. ')
+                    
+                    if(re.search(r"New QB.{0,20}[0-9]+ \w+?\.w+? ", full_desc) is not None):
+                        match = re.search(r"New QB.{0,20}[0-9]+ \w+?\.w+? ", full_desc).group(0)
+                        full_desc = full_desc.replace(match,match.rstrip() + '. ')
+                     
+                    if(re.search(r"New QB.{0,20}[0-9]+ \w+? \w+? ", full_desc) is not None):
+                        match = re.search(r"New QB.{0,20}[0-9]+ \w+? \w+? ", full_desc).group(0)
+                        full_desc = full_desc.replace(match,match.rstrip() + '. ')
+                        
+                    if(re.search(r"\#[0-9]+ Eligible ", full_desc) is not None):
+                        match = re.search(r"\#[0-9]+ Eligible ", full_desc).group(0)
+                        full_desc = full_desc.replace(match,match.rstrip() + '. ')
+                        
+                    full_desc = full_desc.replace('New QB for Denver - No.6 - Brock Osweiler ','New QB for Denver - No.6 - B.Osweiler. ')
+                    
+                    full_desc = full_desc.replace(' at QB ',' at QB. ')
+                    full_desc = full_desc.replace(' at qb ',' at QB. ')
+                    full_desc = full_desc.replace(' at Qb ',' at QB. ')
+                    full_desc = full_desc.replace(' in as QB for this play ',' in as QB for this play. ')
+                    full_desc = full_desc.replace(' in as QB ',' in as QB. ')
+                    full_desc = full_desc.replace(' in as quarterback ',' in as QB. ')
+                    full_desc = full_desc.replace(' in at Quarterback ',' in as QB. ')
+                    full_desc = full_desc.replace(' is now playing ',' is now playing. ')
+                    full_desc = full_desc.replace(' Seminole Formation ',' ')
+                    full_desc = full_desc.replace(' St. ',' St.')
+                    full_desc = full_desc.replace(' A.Randle El ',' A.Randle ')
+                    full_desc = full_desc.replace('Alex Smith ','A.Smith ')
+                    
+                    if(re.search(r"New QB \#[0-9]+ \w+?\.\w+? ", full_desc) is not None):
+                        match = re.search(r"New QB \#[0-9]+ \w+?\.\w+? ", full_desc).group(0)
+                        full_desc = full_desc.replace(match,match.rstrip() + '. ')
+                    if(re.search(r"took the reverse handoff from #[0-9]+", full_desc) is not None):
+                        match = re.search(r"took the reverse handoff from #[0-9]+ \S+ ", full_desc).group(0)
+                        full_desc = full_desc.replace(match,match.rstrip() + '. ')
                         
                     sentences = full_desc.split('. ')
-                    for i in range(len(sentences)):                            
+                    flag = 0
+                    for i in range(len(sentences)):                       
+                        
                         if ('as eligible (Shotgun) ' in sentences[i]):
                             sentences[i] = re.sub(r"^.+ \(Shotgun\) ", "", sentences[i]).strip()
   
@@ -93,6 +142,8 @@ def extract_features(start_year, end_year):
                             continue       
                             
                         if 'was injured during the play' in sentences[i]:
+                            continue
+                        if 'lines up at ' in sentences[i]:
                             continue
                             
 
@@ -111,8 +162,9 @@ def extract_features(start_year, end_year):
 
                         desc = sentences[i]
                         desc = re.sub(r"\(.+?\)", "", desc).strip()
+                        desc = re.sub(r"\{.+?\}", "", desc).strip()
                         
-                        if ((re.search(r'to \w+$', desc) is not None) or (re.search(r'^\w+$', desc) is not None)) and (i<len(sentences)-1):
+                        if ((re.search(r'to \w+$', desc) is not None) or (re.search(r'^\w+$', desc) is not None)) and (i<len(sentences)-1) and ('respotted to' not in desc):
                             desc = desc + '.' + re.sub(r"\(.+?\)", "", sentences[i+1]).strip()
                             
 
@@ -121,20 +173,47 @@ def extract_features(start_year, end_year):
                             
                         
                             
-                        if ' in at QB' in desc:
+                        if ' at QB' in desc:
                             desc = ''
                             continue
                         if ' eligible' in desc:
                             desc = ''
                             continue
+                            
+                        if 'Injury update: ' in desc:
+                            desc = ''
+                            continue
+                        if desc.startswith('Reverse') == True:
+                            desc = ''
+                            continue
+                        if desc.startswith('Direction change') == True:
+                            desc = ''
+                            continue
+                        if desc.startswith('Direction Change') == True:
+                            desc = ''
+                            continue
+                            
 
-                        if (re.search(r'^\S+\.\S+ ', desc) is not None):
-                            break
+                        #if (re.search(r'^\S+\.\S+ ', desc) is not None):
+                        #if((' pass ' ) in desc) and ((
+                        if ' pass ' in desc:
+                            if (' short ' in desc) or (' deep' in desc):
+                                if (' left' in desc) or (' right' in desc) or (' middle' in desc):
+                                    if (' incomplete ' in desc) or (' for ' in desc) or (' INTERCEPTED ' in desc):
+                                        break
+                            
+                        else:
+                            if (' up the middle' in desc) or (' left' in desc) or (' right' in desc):
+                                if (' for ' in desc):
+                                    break
+                        #print desc
+                        #print full_desc
+                        #print
+                        desc = ''
                     
                     if desc == '':
                         continue
-                        
-
+                    
                     if 'incomplete' in desc:
                         features['pass'] = 1
                         rematch = re.search(r'incomplete \S+ \S+ to ', desc)
@@ -171,6 +250,9 @@ def extract_features(start_year, end_year):
                                 features['side'] = 'middle'
                             else:               
                                 rematch = re.search(r'^\S+ (scrambles )?\S+ \S+', desc) 
+                                if rematch is None:
+                                    print desc
+                                    print play.desc
                                 offset = 0
                                 match = rematch.group(0).split()
                                 if match[1] == 'scrambles':
@@ -202,20 +284,30 @@ def extract_features(start_year, end_year):
                                     progress = float(yards) * 2.0 / float(play.yards_togo)
                             else:
                                 progress = 1 + float(yards - play.yards_togo) / 10.0
+                                
+                    if features['side'] not in ['middle','left','right']:
+                        continue
 
                     play_features.append(features)
                     success_labels.append(success)
                     yard_labels.append(yards)
                     progress_labels.append(progress)
+                    
+                    
 
                 # Debug information
-                #import random
-                #if random.randint(0,1000) < 2:
-                #    print desc
-                #    print play.desc
-                #    print features
-                #    print 'SUCCESS:',success,'| YARDS:',yards
-                #    print "############################################################"
+                """
+                import random
+                if random.randint(0,1000) < 2:
+                    print desc
+                    print play.desc
+                    if len(features) == 0:
+                        print 'IGNORED PLAY'                     
+                    else:
+                        print features
+                    print 'SUCCESS:',success,'| YARDS:',yards
+                    print "############################################################"
+                """
 
                 '''
                 # Some debug code (Roman)
