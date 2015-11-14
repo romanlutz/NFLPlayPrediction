@@ -1,0 +1,34 @@
+LDA: Mean, STD:
+(0.72393362229778957, 0.0009686956196790418)
+SGDC: Mean, STD:
+(0.60148242585111689, 0.14791553159225132)
+Decision Tree: Mean, STD:
+(0.64630994853666823, 0.0051694811879293145)
+Nearest Centroid: Mean, STD:
+(0.50572103099557431, 0.0025832038774876772)
+Linear SVM Best Estimator:
+LinearSVC(C=0.03125, class_weight=None, dual=True, fit_intercept=True,
+     intercept_scaling=1, loss='squared_hinge', max_iter=1000,
+     multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
+     verbose=0)
+
+Parameters:
+{'C': 0.03125}
+
+Score:
+0.708801624915
+Grid Scores:
+[mean: 0.70880, std: 0.00824, params: {'C': 0.03125}, mean: 0.70650, std: 0.00354, params: {'C': 0.125}, mean: 0.60091, std: 0.14694, params: {'C': 0.5}, mean: 0.63466, std: 0.09189, params: {'C': 2}, mean: 0.52874, std: 0.12592, params: {'C': 8}, mean: 0.60802, std: 0.13345, params: {'C': 32}, mean: 0.70159, std: 0.00114, params: {'C': 128}, mean: 0.61229, std: 0.12504, params: {'C': 512}, mean: 0.59340, std: 0.14266, params: {'C': 2048}, mean: 0.55328, std: 0.12333, params: {'C': 8192}]
+RBF SVM Best Estimator:
+SVC(C=2048, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape=None, degree=3, gamma=3.0517578125e-05,
+  kernel='rbf', max_iter=-1, probability=False, random_state=None,
+  shrinking=True, tol=0.001, verbose=False)
+
+Parameters:
+{'C': 2048, 'gamma': 3.0517578125e-05}
+
+Score:
+0.726743398781
+Grid Scores:
+[mean: 0.70166, std: 0.00003, params: {'C': 0.03125, 'gamma': 3.0517578125e-05}, mean: 0.70166, std: 0.00003, params: {'C': 0.03125, 'gamma': 0.0001220703125}, mean: 0.70166, std: 0.00003, params: {'C': 0.03125, 'gamma': 0.00048828125}, mean: 0.70166, std: 0.00003, params: {'C': 0.125, 'gamma': 3.0517578125e-05}, mean: 0.70166, std: 0.00003, params: {'C': 0.125, 'gamma': 0.0001220703125}, mean: 0.70166, std: 0.00003, params: {'C': 0.125, 'gamma': 0.00048828125}, mean: 0.70166, std: 0.00003, params: {'C': 0.5, 'gamma': 3.0517578125e-05}, mean: 0.70166, std: 0.00003, params: {'C': 0.5, 'gamma': 0.0001220703125}, mean: 0.70166, std: 0.00003, params: {'C': 0.5, 'gamma': 0.00048828125}, mean: 0.70166, std: 0.00003, params: {'C': 2, 'gamma': 3.0517578125e-05}, mean: 0.70213, std: 0.00059, params: {'C': 2, 'gamma': 0.0001220703125}, mean: 0.70718, std: 0.00186, params: {'C': 2, 'gamma': 0.00048828125}, mean: 0.70399, std: 0.00174, params: {'C': 8, 'gamma': 3.0517578125e-05}, mean: 0.70880, std: 0.00217, params: {'C': 8, 'gamma': 0.0001220703125}, mean: 0.71638, std: 0.00216, params: {'C': 8, 'gamma': 0.00048828125}, mean: 0.70894, std: 0.00166, params: {'C': 32, 'gamma': 3.0517578125e-05}, mean: 0.71655, std: 0.00105, params: {'C': 32, 'gamma': 0.0001220703125}, mean: 0.72177, std: 0.00023, params: {'C': 32, 'gamma': 0.00048828125}, mean: 0.71466, std: 0.00354, params: {'C': 128, 'gamma': 3.0517578125e-05}, mean: 0.72292, std: 0.00069, params: {'C': 128, 'gamma': 0.0001220703125}, mean: 0.71943, std: 0.00204, params: {'C': 128, 'gamma': 0.00048828125}, mean: 0.72299, std: 0.00194, params: {'C': 512, 'gamma': 3.0517578125e-05}, mean: 0.72519, std: 0.00088, params: {'C': 512, 'gamma': 0.0001220703125}, mean: 0.69848, std: 0.00181, params: {'C': 512, 'gamma': 0.00048828125}, mean: 0.72674, std: 0.00128, params: {'C': 2048, 'gamma': 3.0517578125e-05}, mean: 0.71693, std: 0.00227, params: {'C': 2048, 'gamma': 0.0001220703125}, mean: 0.66378, std: 0.00362, params: {'C': 2048, 'gamma': 0.00048828125}, mean: 0.72366, std: 0.00068, params: {'C': 8192, 'gamma': 3.0517578125e-05}, mean: 0.69739, std: 0.00122, params: {'C': 8192, 'gamma': 0.0001220703125}, mean: 0.63615, std: 0.00355, params: {'C': 8192, 'gamma': 0.00048828125}, mean: 0.71930, std: 0.00103, params: {'C': 32768, 'gamma': 3.0517578125e-05}, mean: 0.67745, std: 0.00404, params: {'C': 32768, 'gamma': 0.0001220703125}, mean: 0.61977, std: 0.00273, params: {'C': 32768, 'gamma': 0.00048828125}]
