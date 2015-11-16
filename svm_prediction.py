@@ -3,7 +3,7 @@ from __future__ import division
         'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
         'gamma': [pow(2, x) for x in range(-5, 0, 2)]  # Possible gamma values for the SVM.
     }
-    search = GridSearchCV(SVC(), rbfparameters, cv=3, n_jobs=-1, verbose=1)
+    search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
     search.fit(vector, true_labels)
     print >> output, "RBF SVM Best Estimator:"
     print >> output, search.best_estimator_
