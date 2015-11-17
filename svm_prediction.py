@@ -160,6 +160,17 @@ def plot_confusion_matrix(estimator, features, labels):
     # Show confusion matrix in a separate window
     cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
     plt.matshow(cm_normalized)
+    width = len(cm)
+    height = len(cm[0])
+    for x in xrange(width):
+        for y in xrange(height):
+            plt.gca().annotate("{:5.2f} %".format(cm_normalized[x][y]), xy=(y, x), 
+                        horizontalalignment='center',
+                        verticalalignment='center')
+
+    tick_labels = ['Fail','Success']
+    plt.xticks(range(width), tick_labels)
+    plt.yticks(range(height), tick_labels)
     plt.title('Normalized confusion matrix')
     plt.colorbar()
     plt.ylabel('True label')
