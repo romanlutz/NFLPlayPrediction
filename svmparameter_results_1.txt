@@ -1,13 +1,15 @@
 LDA: Mean, STD:
-(0.72393362229778957, 0.0009686956196790418)
+(0.66486253553457164, 0.011049883142953321)
 SGDC: Mean, STD:
-(0.60148242585111689, 0.14791553159225132)
+(0.53183393492916686, 0.035522380369649033)
 Decision Tree: Mean, STD:
-(0.64630994853666823, 0.0051694811879293145)
+(0.59020743475235304, 0.0010180761701459112)
 Nearest Centroid: Mean, STD:
-(0.50572103099557431, 0.0025832038774876772)
+(0.50298657584988582, 0.0023551456471854436)
+linsvm c 2e-5 guesses
+Counter({0: 16785, 1: 963})
 Linear SVM Best Estimator:
-LinearSVC(C=0.03125, class_weight=None, dual=True, fit_intercept=True,
+LinearSVC(C=0.03125, class_weight='auto', dual=True, fit_intercept=True,
      intercept_scaling=1, loss='squared_hinge', max_iter=1000,
      multi_class='ovr', penalty='l2', random_state=None, tol=0.0001,
      verbose=0)
@@ -16,19 +18,71 @@ Parameters:
 {'C': 0.03125}
 
 Score:
-0.708801624915
+0.560232138833
 Grid Scores:
-[mean: 0.70880, std: 0.00824, params: {'C': 0.03125}, mean: 0.70650, std: 0.00354, params: {'C': 0.125}, mean: 0.60091, std: 0.14694, params: {'C': 0.5}, mean: 0.63466, std: 0.09189, params: {'C': 2}, mean: 0.52874, std: 0.12592, params: {'C': 8}, mean: 0.60802, std: 0.13345, params: {'C': 32}, mean: 0.70159, std: 0.00114, params: {'C': 128}, mean: 0.61229, std: 0.12504, params: {'C': 512}, mean: 0.59340, std: 0.14266, params: {'C': 2048}, mean: 0.55328, std: 0.12333, params: {'C': 8192}]
+[mean: 0.56023, std: 0.01780, params: {'C': 0.03125}, mean: 0.53031, std: 0.00932, params: {'C': 0.125}, mean: 0.54057, std: 0.02333, params: {'C': 0.5}, mean: 0.52316, std: 0.01723, params: {'C': 2}, mean: 0.54440, std: 0.00743, params: {'C': 8}, mean: 0.53876, std: 0.02650, params: {'C': 32}, mean: 0.55832, std: 0.03742, params: {'C': 128}, mean: 0.55854, std: 0.03745, params: {'C': 512}, mean: 0.53110, std: 0.01729, params: {'C': 2048}, mean: 0.53110, std: 0.01729, params: {'C': 8192}]
 RBF SVM Best Estimator:
-SVC(C=2048, cache_size=200, class_weight=None, coef0=0.0,
-  decision_function_shape=None, degree=3, gamma=3.0517578125e-05,
+SVC(C=2048, cache_size=200, class_weight='auto', coef0=0.0,
+  decision_function_shape=None, degree=3, gamma=7.62939453125e-06,
   kernel='rbf', max_iter=-1, probability=False, random_state=None,
   shrinking=True, tol=0.001, verbose=False)
 
 Parameters:
-{'C': 2048, 'gamma': 3.0517578125e-05}
+{'C': 2048, 'gamma': 7.62939453125e-06}
 
 Score:
-0.726743398781
+0.66322965968
 Grid Scores:
-[mean: 0.70166, std: 0.00003, params: {'C': 0.03125, 'gamma': 3.0517578125e-05}, mean: 0.70166, std: 0.00003, params: {'C': 0.03125, 'gamma': 0.0001220703125}, mean: 0.70166, std: 0.00003, params: {'C': 0.03125, 'gamma': 0.00048828125}, mean: 0.70166, std: 0.00003, params: {'C': 0.125, 'gamma': 3.0517578125e-05}, mean: 0.70166, std: 0.00003, params: {'C': 0.125, 'gamma': 0.0001220703125}, mean: 0.70166, std: 0.00003, params: {'C': 0.125, 'gamma': 0.00048828125}, mean: 0.70166, std: 0.00003, params: {'C': 0.5, 'gamma': 3.0517578125e-05}, mean: 0.70166, std: 0.00003, params: {'C': 0.5, 'gamma': 0.0001220703125}, mean: 0.70166, std: 0.00003, params: {'C': 0.5, 'gamma': 0.00048828125}, mean: 0.70166, std: 0.00003, params: {'C': 2, 'gamma': 3.0517578125e-05}, mean: 0.70213, std: 0.00059, params: {'C': 2, 'gamma': 0.0001220703125}, mean: 0.70718, std: 0.00186, params: {'C': 2, 'gamma': 0.00048828125}, mean: 0.70399, std: 0.00174, params: {'C': 8, 'gamma': 3.0517578125e-05}, mean: 0.70880, std: 0.00217, params: {'C': 8, 'gamma': 0.0001220703125}, mean: 0.71638, std: 0.00216, params: {'C': 8, 'gamma': 0.00048828125}, mean: 0.70894, std: 0.00166, params: {'C': 32, 'gamma': 3.0517578125e-05}, mean: 0.71655, std: 0.00105, params: {'C': 32, 'gamma': 0.0001220703125}, mean: 0.72177, std: 0.00023, params: {'C': 32, 'gamma': 0.00048828125}, mean: 0.71466, std: 0.00354, params: {'C': 128, 'gamma': 3.0517578125e-05}, mean: 0.72292, std: 0.00069, params: {'C': 128, 'gamma': 0.0001220703125}, mean: 0.71943, std: 0.00204, params: {'C': 128, 'gamma': 0.00048828125}, mean: 0.72299, std: 0.00194, params: {'C': 512, 'gamma': 3.0517578125e-05}, mean: 0.72519, std: 0.00088, params: {'C': 512, 'gamma': 0.0001220703125}, mean: 0.69848, std: 0.00181, params: {'C': 512, 'gamma': 0.00048828125}, mean: 0.72674, std: 0.00128, params: {'C': 2048, 'gamma': 3.0517578125e-05}, mean: 0.71693, std: 0.00227, params: {'C': 2048, 'gamma': 0.0001220703125}, mean: 0.66378, std: 0.00362, params: {'C': 2048, 'gamma': 0.00048828125}, mean: 0.72366, std: 0.00068, params: {'C': 8192, 'gamma': 3.0517578125e-05}, mean: 0.69739, std: 0.00122, params: {'C': 8192, 'gamma': 0.0001220703125}, mean: 0.63615, std: 0.00355, params: {'C': 8192, 'gamma': 0.00048828125}, mean: 0.71930, std: 0.00103, params: {'C': 32768, 'gamma': 3.0517578125e-05}, mean: 0.67745, std: 0.00404, params: {'C': 32768, 'gamma': 0.0001220703125}, mean: 0.61977, std: 0.00273, params: {'C': 32768, 'gamma': 0.00048828125}]
+[mean: 0.50169, std: 0.00295, params: {'C': 0.03125, 'gamma': 7.62939453125e-06}, mean: 0.50699, std: 0.00390, params: {'C': 0.03125, 'gamma': 3.0517578125e-05}, mean: 0.51240, std: 0.00311, params: {'C': 0.125, 'gamma': 7.62939453125e-06}, mean: 0.51668, std: 0.00418, params: {'C': 0.125, 'gamma': 3.0517578125e-05}, mean: 0.53899, std: 0.00173, params: {'C': 0.5, 'gamma': 7.62939453125e-06}, mean: 0.55550, std: 0.00741, params: {'C': 0.5, 'gamma': 3.0517578125e-05}, mean: 0.60339, std: 0.00319, params: {'C': 2, 'gamma': 7.62939453125e-06}, mean: 0.63483, std: 0.00818, params: {'C': 2, 'gamma': 3.0517578125e-05}, mean: 0.63748, std: 0.01106, params: {'C': 8, 'gamma': 7.62939453125e-06}, mean: 0.63799, std: 0.00837, params: {'C': 8, 'gamma': 3.0517578125e-05}, mean: 0.64492, std: 0.00971, params: {'C': 32, 'gamma': 7.62939453125e-06}, mean: 0.64650, std: 0.00818, params: {'C': 32, 'gamma': 3.0517578125e-05}, mean: 0.65033, std: 0.00782, params: {'C': 128, 'gamma': 7.62939453125e-06}, mean: 0.65168, std: 0.00610, params: {'C': 128, 'gamma': 3.0517578125e-05}, mean: 0.65619, std: 0.00853, params: {'C': 512, 'gamma': 7.62939453125e-06}, mean: 0.65996, std: 0.00707, params: {'C': 512, 'gamma': 3.0517578125e-05}, mean: 0.66323, std: 0.00860, params: {'C': 2048, 'gamma': 7.62939453125e-06}, mean: 0.65675, std: 0.00697, params: {'C': 2048, 'gamma': 3.0517578125e-05}, mean: 0.66069, std: 0.00755, params: {'C': 8192, 'gamma': 7.62939453125e-06}, mean: 0.65095, std: 0.00511, params: {'C': 8192, 'gamma': 3.0517578125e-05}, mean: 0.65816, std: 0.00793, params: {'C': 32768, 'gamma': 7.62939453125e-06}, mean: 0.63917, std: 0.00432, params: {'C': 32768, 'gamma': 3.0517578125e-05}]
+RBF SVM Best Estimator:
+SVC(C=512, cache_size=200, class_weight='auto', coef0=0.0,
+  decision_function_shape=None, degree=3, gamma=0.0001220703125,
+  kernel='rbf', max_iter=-1, probability=False, random_state=None,
+  shrinking=True, tol=0.001, verbose=False)
+
+Parameters:
+{'C': 512, 'gamma': 0.0001220703125}
+
+Score:
+0.654721658778
+Grid Scores:
+[mean: 0.51003, std: 0.00504, params: {'C': 0.03125, 'gamma': 0.0001220703125}, mean: 0.52090, std: 0.00561, params: {'C': 0.03125, 'gamma': 0.00048828125}, mean: 0.52440, std: 0.00636, params: {'C': 0.125, 'gamma': 0.0001220703125}, mean: 0.53978, std: 0.00479, params: {'C': 0.125, 'gamma': 0.00048828125}, mean: 0.58733, std: 0.00875, params: {'C': 0.5, 'gamma': 0.0001220703125}, mean: 0.60238, std: 0.00447, params: {'C': 0.5, 'gamma': 0.00048828125}, mean: 0.63449, std: 0.00618, params: {'C': 2, 'gamma': 0.0001220703125}, mean: 0.63438, std: 0.01025, params: {'C': 2, 'gamma': 0.00048828125}, mean: 0.64227, std: 0.00930, params: {'C': 8, 'gamma': 0.0001220703125}, mean: 0.64345, std: 0.00873, params: {'C': 8, 'gamma': 0.00048828125}, mean: 0.65106, std: 0.00851, params: {'C': 32, 'gamma': 0.0001220703125}, mean: 0.64864, std: 0.00968, params: {'C': 32, 'gamma': 0.00048828125}, mean: 0.65405, std: 0.00436, params: {'C': 128, 'gamma': 0.0001220703125}, mean: 0.64244, std: 0.00455, params: {'C': 128, 'gamma': 0.00048828125}, mean: 0.65472, std: 0.00299, params: {'C': 512, 'gamma': 0.0001220703125}, mean: 0.61906, std: 0.00288, params: {'C': 512, 'gamma': 0.00048828125}, mean: 0.63940, std: 0.00287, params: {'C': 2048, 'gamma': 0.0001220703125}, mean: 0.58936, std: 0.00704, params: {'C': 2048, 'gamma': 0.00048828125}, mean: 0.61759, std: 0.00536, params: {'C': 8192, 'gamma': 0.0001220703125}, mean: 0.57528, std: 0.00655, params: {'C': 8192, 'gamma': 0.00048828125}, mean: 0.60018, std: 0.00391, params: {'C': 32768, 'gamma': 0.0001220703125}, mean: 0.56840, std: 0.00537, params: {'C': 32768, 'gamma': 0.00048828125}]
+RBF SVM Best Estimator:
+SVC(C=8, cache_size=200, class_weight='auto', coef0=0.0,
+  decision_function_shape=None, degree=3, gamma=0.001953125, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+
+Parameters:
+{'C': 8, 'gamma': 0.001953125}
+
+Score:
+0.616970926302
+Grid Scores:
+[mean: 0.51983, std: 0.00415, params: {'C': 0.03125, 'gamma': 0.001953125}, mean: 0.50152, std: 0.00114, params: {'C': 0.03125, 'gamma': 0.0078125}, mean: 0.55037, std: 0.00215, params: {'C': 0.125, 'gamma': 0.001953125}, mean: 0.55956, std: 0.00373, params: {'C': 0.125, 'gamma': 0.0078125}, mean: 0.59235, std: 0.00488, params: {'C': 0.5, 'gamma': 0.001953125}, mean: 0.57945, std: 0.00849, params: {'C': 0.5, 'gamma': 0.0078125}, mean: 0.61432, std: 0.01020, params: {'C': 2, 'gamma': 0.001953125}, mean: 0.58835, std: 0.00470, params: {'C': 2, 'gamma': 0.0078125}, mean: 0.61697, std: 0.01203, params: {'C': 8, 'gamma': 0.001953125}, mean: 0.58164, std: 0.00641, params: {'C': 8, 'gamma': 0.0078125}, mean: 0.61241, std: 0.00916, params: {'C': 32, 'gamma': 0.001953125}, mean: 0.56936, std: 0.00659, params: {'C': 32, 'gamma': 0.0078125}, mean: 0.58818, std: 0.00440, params: {'C': 128, 'gamma': 0.001953125}, mean: 0.56592, std: 0.00718, params: {'C': 128, 'gamma': 0.0078125}, mean: 0.57443, std: 0.00637, params: {'C': 512, 'gamma': 0.001953125}, mean: 0.56558, std: 0.00676, params: {'C': 512, 'gamma': 0.0078125}, mean: 0.57387, std: 0.00466, params: {'C': 2048, 'gamma': 0.001953125}, mean: 0.56547, std: 0.00681, params: {'C': 2048, 'gamma': 0.0078125}, mean: 0.57415, std: 0.00444, params: {'C': 8192, 'gamma': 0.001953125}, mean: 0.56547, std: 0.00681, params: {'C': 8192, 'gamma': 0.0078125}, mean: 0.57392, std: 0.00433, params: {'C': 32768, 'gamma': 0.001953125}, mean: 0.56547, std: 0.00681, params: {'C': 32768, 'gamma': 0.0078125}]
+RBF SVM Best Estimator:
+SVC(C=0.5, cache_size=200, class_weight='auto', coef0=0.0,
+  decision_function_shape=None, degree=3, gamma=0.03125, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+
+Parameters:
+{'C': 0.5, 'gamma': 0.03125}
+
+Score:
+0.56293666892
+Grid Scores:
+[mean: 0.50096, std: 0.00249, params: {'C': 0.03125, 'gamma': 0.03125}, mean: 0.49887, std: 0.00325, params: {'C': 0.03125, 'gamma': 0.125}, mean: 0.49887, std: 0.00325, params: {'C': 0.03125, 'gamma': 0.5}, mean: 0.50400, std: 0.00189, params: {'C': 0.125, 'gamma': 0.03125}, mean: 0.49921, std: 0.00045, params: {'C': 0.125, 'gamma': 0.125}, mean: 0.49887, std: 0.00325, params: {'C': 0.125, 'gamma': 0.5}, mean: 0.56294, std: 0.00551, params: {'C': 0.5, 'gamma': 0.03125}, mean: 0.51245, std: 0.00737, params: {'C': 0.5, 'gamma': 0.125}, mean: 0.49893, std: 0.00040, params: {'C': 0.5, 'gamma': 0.5}, mean: 0.55849, std: 0.00615, params: {'C': 2, 'gamma': 0.03125}, mean: 0.53882, std: 0.00508, params: {'C': 2, 'gamma': 0.125}, mean: 0.49977, std: 0.00245, params: {'C': 2, 'gamma': 0.5}, mean: 0.55544, std: 0.00463, params: {'C': 8, 'gamma': 0.03125}, mean: 0.53876, std: 0.00516, params: {'C': 8, 'gamma': 0.125}, mean: 0.49977, std: 0.00245, params: {'C': 8, 'gamma': 0.5}, mean: 0.55454, std: 0.00460, params: {'C': 32, 'gamma': 0.03125}, mean: 0.53876, std: 0.00516, params: {'C': 32, 'gamma': 0.125}, mean: 0.49977, std: 0.00245, params: {'C': 32, 'gamma': 0.5}, mean: 0.55426, std: 0.00462, params: {'C': 128, 'gamma': 0.03125}, mean: 0.53876, std: 0.00516, params: {'C': 128, 'gamma': 0.125}, mean: 0.49977, std: 0.00245, params: {'C': 128, 'gamma': 0.5}, mean: 0.55426, std: 0.00462, params: {'C': 512, 'gamma': 0.03125}, mean: 0.53876, std: 0.00516, params: {'C': 512, 'gamma': 0.125}, mean: 0.49977, std: 0.00245, params: {'C': 512, 'gamma': 0.5}, mean: 0.55426, std: 0.00462, params: {'C': 2048, 'gamma': 0.03125}, mean: 0.53876, std: 0.00516, params: {'C': 2048, 'gamma': 0.125}, mean: 0.49977, std: 0.00245, params: {'C': 2048, 'gamma': 0.5}, mean: 0.55426, std: 0.00462, params: {'C': 8192, 'gamma': 0.03125}, mean: 0.53876, std: 0.00516, params: {'C': 8192, 'gamma': 0.125}, mean: 0.49977, std: 0.00245, params: {'C': 8192, 'gamma': 0.5}, mean: 0.55426, std: 0.00462, params: {'C': 32768, 'gamma': 0.03125}, mean: 0.53876, std: 0.00516, params: {'C': 32768, 'gamma': 0.125}, mean: 0.49977, std: 0.00245, params: {'C': 32768, 'gamma': 0.5}]
+RBF SVM Best Estimator:
+SVC(C=2, cache_size=200, class_weight='auto', coef0=0.0,
+  decision_function_shape=None, degree=3, gamma=8, kernel='rbf',
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+
+Parameters:
+{'C': 2, 'gamma': 8}
+
+Score:
+0.503437006987
+Grid Scores:
+[mean: 0.49887, std: 0.00325, params: {'C': 0.03125, 'gamma': 2}, mean: 0.49887, std: 0.00325, params: {'C': 0.03125, 'gamma': 8}, mean: 0.49887, std: 0.00325, params: {'C': 0.125, 'gamma': 2}, mean: 0.49887, std: 0.00325, params: {'C': 0.125, 'gamma': 8}, mean: 0.49887, std: 0.00325, params: {'C': 0.5, 'gamma': 2}, mean: 0.49887, std: 0.00325, params: {'C': 0.5, 'gamma': 8}, mean: 0.50338, std: 0.00018, params: {'C': 2, 'gamma': 2}, mean: 0.50344, std: 0.00004, params: {'C': 2, 'gamma': 8}, mean: 0.50338, std: 0.00018, params: {'C': 8, 'gamma': 2}, mean: 0.50344, std: 0.00004, params: {'C': 8, 'gamma': 8}, mean: 0.50338, std: 0.00018, params: {'C': 32, 'gamma': 2}, mean: 0.50344, std: 0.00004, params: {'C': 32, 'gamma': 8}, mean: 0.50338, std: 0.00018, params: {'C': 128, 'gamma': 2}, mean: 0.50344, std: 0.00004, params: {'C': 128, 'gamma': 8}, mean: 0.50338, std: 0.00018, params: {'C': 512, 'gamma': 2}, mean: 0.50344, std: 0.00004, params: {'C': 512, 'gamma': 8}, mean: 0.50338, std: 0.00018, params: {'C': 2048, 'gamma': 2}, mean: 0.50344, std: 0.00004, params: {'C': 2048, 'gamma': 8}, mean: 0.50338, std: 0.00018, params: {'C': 8192, 'gamma': 2}, mean: 0.50344, std: 0.00004, params: {'C': 8192, 'gamma': 8}, mean: 0.50338, std: 0.00018, params: {'C': 32768, 'gamma': 2}, mean: 0.50344, std: 0.00004, params: {'C': 32768, 'gamma': 8}]
