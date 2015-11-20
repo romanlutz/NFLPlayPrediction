@@ -351,3 +351,16 @@ def encode_categorical_features(features, sparse=True):
     enc.fit(features)  
     svm_features = enc.transform(features)
     return svm_features, enc
+
+
+def get_team_features(team,features, labels,feature_name='team'):
+    team_features = []
+    team_labels = []
+    for i in range(len(features)):
+        if features[i][feature_name] == team:
+            f = features[i].copy()
+            del f[feature_name]
+            team_features.append(f)
+            team_labels.append(labels[i])
+    print len(team_features)
+    return (np.array(team_features),np.array(team_labels))
