@@ -9,7 +9,7 @@ Features
 * Down
 * Yards to go
 * Shotgun formation (0/1)
-* Pass (0/1)
+* Pass (short/deep/0)
 * Side
   -> Pass: left / middle / right
   -> Run: left (left end , left tackle)  / middle (left guard , middle , right guard) / right (right tackle , right end)
