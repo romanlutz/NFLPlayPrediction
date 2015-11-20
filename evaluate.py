@@ -1,19 +1,20 @@
 from __future__ import division
-from sklearn.cross_validation import train_test_split
 from sklearn.metrics import confusion_matrix
-from numpy.random import RandomState
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import tree
 import os
+from sklearn.cross_validation import KFold
 
 
 # Evaluate classifier
-def clf_evaluate(clf, features, labels,max_iter=10):
-    rs = RandomState()
+def clf_evaluate(clf, features, labels, k=5):
+
     cm = [[0,0],[0,0]]
-    for i in range(max_iter):
-        X_train, X_test, y_train, y_test = train_test_split(features, labels,random_state=rs)
+    kf = KFold(len(labels), n_folds=k)
+    for train_index, test_index in kf:
+        X_train, X_test = features[train_index], features[test_index]
+        y_train, y_test = labels[train_index], labels[test_index]
         y_pred = clf.fit(X_train, y_train).predict(X_test)       
         cm = cm + confusion_matrix(y_test, y_pred)
 
@@ -29,13 +30,14 @@ def clf_evaluate(clf, features, labels,max_iter=10):
     return cm
 
 # Evaluate regression estimator
-def reg_evaluate(clf, features, labels,max_iter=10):
-    rs = RandomState()
-    diffs = []
-    for i in range(max_iter):
-        X_train, X_test, y_train, y_test = train_test_split(features, labels,random_state=rs)
-        y_pred = clf.fit(X_train, y_train).predict(X_test)       
+def reg_evaluate(clf, features, labels,k=5):
 
+    diffs = []
+    kf = KFold(len(labels), n_folds=k)
+    for train_index, test_index in kf:
+        X_train, X_test = features[train_index], features[test_index]
+        y_train, y_test = labels[train_index], labels[test_index]
+        y_pred = clf.fit(X_train, y_train).predict(X_test)
         
         y_pred = clf.predict(X_test)
         for idx in range(len(y_pred)):    
@@ -48,7 +50,7 @@ def reg_evaluate(clf, features, labels,max_iter=10):
 
 # Create a plot of the confusion matrix
 def plot_confusion_matrix(cm):
-    cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+    cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]*100.0
     plt.matshow(cm_normalized)
     width = len(cm)
     height = len(cm[0])
