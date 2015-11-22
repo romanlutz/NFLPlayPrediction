@@ -1,5 +1,5 @@
 import random
-from features import extract_features, encode_categorical_features
+from feat import extract_features, encode_categorical_features
 from svm_prediction import compare_RBF_parameters
 from neural_network_prediction import neural_network_prediction
 import numpy as np

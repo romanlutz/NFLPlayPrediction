@@ -9,7 +9,7 @@ Features
 * Down
 * Yards to go
 * Shotgun formation (0/1)
-* Pass (0/1)
+* Pass (short/deep/0)
 * Side
   -> Pass: left / middle / right
   -> Run: left (left end , left tackle)  / middle (left guard , middle , right guard) / right (right tackle , right end)
@@ -22,6 +22,7 @@ Labels
 ======
 Success (First down or Touchdown)
 Yards
+Progress
 
 
 Ignored plays
@@ -38,3 +39,84 @@ Ignored plays
 * Delay of game
 * Timeouts
 
+
+
+Encoded features
+================
+{'down': 0,
+ 'half': 1,
+ u'opponent=ARI': 2,
+ u'opponent=ATL': 3,
+ u'opponent=BAL': 4,
+ u'opponent=BUF': 5,
+ u'opponent=CAR': 6,
+ u'opponent=CHI': 7,
+ u'opponent=CIN': 8,
+ u'opponent=CLE': 9,
+ u'opponent=DAL': 10,
+ u'opponent=DEN': 11,
+ u'opponent=DET': 12,
+ u'opponent=GB': 13,
+ u'opponent=HOU': 14,
+ u'opponent=IND': 15,
+ u'opponent=JAC': 16,
+ u'opponent=KC': 17,
+ u'opponent=MIA': 18,
+ u'opponent=MIN': 19,
+ u'opponent=NE': 20,
+ u'opponent=NO': 21,
+ u'opponent=NYG': 22,
+ u'opponent=NYJ': 23,
+ u'opponent=OAK': 24,
+ u'opponent=PHI': 25,
+ u'opponent=PIT': 26,
+ u'opponent=SD': 27,
+ u'opponent=SEA': 28,
+ u'opponent=SF': 29,
+ u'opponent=STL': 30,
+ u'opponent=TB': 31,
+ u'opponent=TEN': 32,
+ u'opponent=WAS': 33,
+ 'pass': 34,
+ u'passlen=deep': 35,
+ u'passlen=short': 36,
+ 'position': 37,
+ 'qbrun': 38,
+ 'shotgun': 39,
+ u'side=left': 40,
+ 'side=middle': 41,
+ u'side=right': 42,
+ u'team=ARI': 43,
+ u'team=ATL': 44,
+ u'team=BAL': 45,
+ u'team=BUF': 46,
+ u'team=CAR': 47,
+ u'team=CHI': 48,
+ u'team=CIN': 49,
+ u'team=CLE': 50,
+ u'team=DAL': 51,
+ u'team=DEN': 52,
+ u'team=DET': 53,
+ u'team=GB': 54,
+ u'team=HOU': 55,
+ u'team=IND': 56,
+ u'team=JAC': 57,
+ u'team=KC': 58,
+ u'team=MIA': 59,
+ u'team=MIN': 60,
+ u'team=NE': 61,
+ u'team=NO': 62,
+ u'team=NYG': 63,
+ u'team=NYJ': 64,
+ u'team=OAK': 65,
+ u'team=PHI': 66,
+ u'team=PIT': 67,
+ u'team=SD': 68,
+ u'team=SEA': 69,
+ u'team=SF': 70,
+ u'team=STL': 71,
+ u'team=TB': 72,
+ u'team=TEN': 73,
+ u'team=WAS': 74,
+ 'time': 75,
+ 'togo': 76}

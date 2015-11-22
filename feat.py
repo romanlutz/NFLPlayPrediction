@@ -25,6 +25,7 @@ def extract_features(start_year, end_year):
                 features = defaultdict(float)
                 success = 0
                 yards = 0
+                progress = 0
                 desc = ''
 
                 # TODO: include sacks? probably not since we can't assign them to any play option
@@ -89,6 +90,7 @@ def extract_features(start_year, end_year):
                         full_desc = full_desc.replace(match,match.rstrip())
                     if(re.search(r"[^\.] \(Shotgun\)", full_desc) is not None):
                         full_desc = full_desc.replace(" (Shotgun)",". (Shotgun)") 
+                    full_desc = full_desc.replace('.(Shotgun)','. (Shotgun)')
                         
                     if(re.search(r" a[st] QB for the \w+ ", full_desc) is not None):
                         match = re.search(r" a[st] QB for the \w+ ", full_desc).group(0)
@@ -98,8 +100,8 @@ def extract_features(start_year, end_year):
                         match = re.search(r"New QB.{0,20}[0-9]+ \w+?\.w+? ", full_desc).group(0)
                         full_desc = full_desc.replace(match,match.rstrip() + '. ')
                      
-                    if(re.search(r"New QB.{0,20}[0-9]+ \w+? \w+? ", full_desc) is not None):
-                        match = re.search(r"New QB.{0,20}[0-9]+ \w+? \w+? ", full_desc).group(0)
+                    if(re.search(r"New QB.{0,20}[0-9]+ \w+?[\.\, ] ?\w+? ", full_desc) is not None):
+                        match = re.search(r"New QB.{0,20}[0-9]+ \w+?[\.\, ] ?\w+? ", full_desc).group(0)
                         full_desc = full_desc.replace(match,match.rstrip() + '. ')
                         
                     if(re.search(r"\#[0-9]+ Eligible ", full_desc) is not None):
@@ -170,8 +172,6 @@ def extract_features(start_year, end_year):
 
                         if ((i<len(sentences)-1) and (sentences[i+1][:3] == 'to ')):
                             desc = desc + '.' + re.sub(r"\(.+?\)", "", sentences[i+1]).strip()
-                            
-                        
                             
                         if ' at QB' in desc:
                             desc = ''
@@ -285,7 +285,9 @@ def extract_features(start_year, end_year):
                             else:
                                 progress = 1 + float(yards - play.yards_togo) / 10.0
                                 
-                    if features['side'] not in ['middle','left','right']:
+                    if features['side'] not in ['middle','left','right']:                        
+                        print play.desc
+                        print
                         continue
 
                     play_features.append(features)
@@ -302,7 +304,7 @@ def extract_features(start_year, end_year):
                     print desc
                     print play.desc
                     if len(features) == 0:
-                        print 'IGNORED PLAY'                     
+                        print '>>> IGNORED PLAY <<<'                     
                     else:
                         print features
                     print 'SUCCESS:',success,'| YARDS:',yards
@@ -349,3 +351,16 @@ def encode_categorical_features(features, sparse=True):
     enc.fit(features)  
     svm_features = enc.transform(features)
     return svm_features, enc
+
+
+def get_team_features(team,features, labels,feature_name='team'):
+    team_features = []
+    team_labels = []
+    for i in range(len(features)):
+        if features[i][feature_name] == team:
+            f = features[i].copy()
+            del f[feature_name]
+            team_features.append(f)
+            team_labels.append(labels[i])
+    print len(team_features)
+    return (np.array(team_features),np.array(team_labels))
