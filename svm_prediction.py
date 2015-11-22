@@ -13,6 +13,7 @@ from sklearn.neighbors.nearest_centroid import NearestCentroid
 from sklearn.svm import LinearSVC
 from collections import Counter
 from random import random
+from evaluate import clf_evaluate_percents
 import matplotlib.pyplot as plt
 
 '''
@@ -54,137 +55,178 @@ def compare_RBF_parameters(features, true_labels):
     feats, labels = under_sample(features,true_labels)
     vec = DictVectorizer()
     vector = vec.fit_transform(feats).toarray()
+    labels = np.asarray(labels)
     # Consider replacing the above with FeatureHasher for faster computation?
    
-    output = open('./svmparameters.txt', 'w+')
+    output = open('./classifier_results.txt', 'w+')
     ldaclassifier = LinearDiscriminantAnalysis()
-    (mean,std) = test_classifier(ldaclassifier, vector,labels, kfold=3);
-    print >> output, "LDA: Mean, STD:"
-    print >> output, (mean, std)
+    (recall,precision,accuracy) = clf_evaluate_percents(ldaclassifier, vector,labels);
+    print >> output, "**********************************"
+    print >> output, "LDA"
+    print >> output, "Recall:", recall * 100, '%'
+    print >> output, "Precision:", precision * 100, '%'
+    print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "**********************************"
     output.flush()
-    sgdclass = SGDClassifier(class_weight='auto')
-    (mean, std) = test_classifier(sgdclass, vector, labels, kfold=3);
-    print >> output, "SGDC: Mean, STD:"
-    print >> output, (mean, std)
+	
+    sgdclass = SGDClassifier()
+    (recall,precision,accuracy) = clf_evaluate_percents(sgdclass, vector, labels);
+    print >> output, "**********************************"
+    print >> output, "SGDC"
+    print >> output, "Recall:", recall * 100, '%'
+    print >> output, "Precision:", precision * 100, '%'
+    print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "**********************************"
     output.flush()
-    treeclf = tree.DecisionTreeClassifier(class_weight='auto')
-    (mean, std) = test_classifier(treeclf, vector, labels, kfold=3);
-    print >> output, "Decision Tree: Mean, STD:"
-    print >> output, (mean, std)
+	
+    treeclf = tree.DecisionTreeClassifier()
+    (recall,precision,accuracy) = clf_evaluate_percents(treeclf, vector, labels);
+    print >> output, "**********************************"
+    print >> output, "Decision Tree"
+    print >> output, "Recall:", recall * 100, '%'
+    print >> output, "Precision:", precision * 100, '%'
+    print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "**********************************"
     output.flush()
+	
+	
     ncclf = NearestCentroid()
-    (mean, std) = test_classifier(ncclf, vector, labels, kfold=3);
-    print >> output, "Nearest Centroid: Mean, STD:"
-    print >> output, (mean, std)
+    (recall,precision,accuracy) = clf_evaluate_percents(ncclf, vector, labels);
+    print >> output, "**********************************"
+    print >> output, "NearestCentroid"
+    print >> output, "Recall:", recall * 100, '%'
+    print >> output, "Precision:", precision * 100, '%'
+    print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "**********************************"
     output.flush()
-    linsvm = LinearSVC(class_weight='auto', C = pow(2,-5))
+	
+	
+    linsvm = LinearSVC(C = 0.03125)
     linsvm.fit(vector,labels)
-    print >> output, "linsvm c 2e-5 guesses"
-    print >> output, Counter(linsvm.predict(vector))
+    (recall,precision,accuracy) = clf_evaluate_percents(linsvm, vector, labels);
+    print >> output, "**********************************"
+    print >> output, "Linear SVM"
+    print >> output, "Recall:", recall * 100, '%'
+    print >> output, "Precision:", precision * 100, '%'
+    print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "**********************************"
     output.flush()
-    linsvmparams = {'C': [pow(2,x) for x in range(-5,15,2)]}
-    search = GridSearchCV(LinearSVC(class_weight='auto'), linsvmparams, cv=3, n_jobs=-1, verbose=1)
-    search.fit(vector, labels)
-    print >> output, "Linear SVM Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, ""
-    print >> output, "Parameters:"
-    print >> output, search.best_params_
-    print >> output, ""
-    print >> output, "Score:"
-    print >> output, search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
+	
+    rbfsvm = SVC(C = 2048, kernel='rbf', gamma=pow(2,-17))
+    rbfsvm.fit(vector,labels)
+    (recall,precision,accuracy) = clf_evaluate_percents(rbfsvm, vector, labels);
+    print >> output, "**********************************"
+    print >> output, "RBF SVM, C=2048, Gamma= 2^-17"
+    print >> output, "Recall:", recall * 100, '%'
+    print >> output, "Precision:", precision * 100, '%'
+    print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "**********************************"
     output.flush()
+	
+    # linsvmparams = {'C': [pow(2,x) for x in range(-5,15,2)]}
+    # search = GridSearchCV(LinearSVC(class_weight='auto'), linsvmparams, cv=3, n_jobs=-1, verbose=1)
+    # search.fit(vector, labels)
+    # print >> output, "Linear SVM Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, ""
+    # print >> output, "Parameters:"
+    # print >> output, search.best_params_
+    # print >> output, ""
+    # print >> output, "Score:"
+    # print >> output, search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    # output.flush()
 
 	
-    rbfparameters = {
-        'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-        'gamma': [pow(2, x) for x in range(-17, -13, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
-    search.fit(vector, labels)
-    print >> output, "RBF SVM Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, ""
-    print >> output, "Parameters:"
-    print >> output, search.best_params_
-    print >> output, ""
-    print >> output, "Score:"
-    print >> output, search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
-    output.flush()
+    # rbfparameters = {
+        # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+        # 'gamma': [pow(2, x) for x in range(-17, -13, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
+    # search.fit(vector, labels)
+    # print >> output, "RBF SVM Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, ""
+    # print >> output, "Parameters:"
+    # print >> output, search.best_params_
+    # print >> output, ""
+    # print >> output, "Score:"
+    # print >> output, search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    # output.flush()
 	
-    rbfparameters = {
-        'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-        'gamma': [pow(2, x) for x in range(-13, -9, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
-    search.fit(vector, labels)
-    print >> output, "RBF SVM Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, ""
-    print >> output, "Parameters:"
-    print >> output, search.best_params_
-    print >> output, ""
-    print >> output, "Score:"
-    print >> output, search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
-    output.flush()
+    # rbfparameters = {
+        # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+        # 'gamma': [pow(2, x) for x in range(-13, -9, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
+    # search.fit(vector, labels)
+    # print >> output, "RBF SVM Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, ""
+    # print >> output, "Parameters:"
+    # print >> output, search.best_params_
+    # print >> output, ""
+    # print >> output, "Score:"
+    # print >> output, search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    # output.flush()
 	
 	
-    rbfparameters = {
-        'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-        'gamma': [pow(2, x) for x in range(-9, -5, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
-    search.fit(vector, labels)
-    print >> output, "RBF SVM Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, ""
-    print >> output, "Parameters:"
-    print >> output, search.best_params_
-    print >> output, ""
-    print >> output, "Score:"
-    print >> output, search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
-    output.flush()
+    # rbfparameters = {
+        # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+        # 'gamma': [pow(2, x) for x in range(-9, -5, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
+    # search.fit(vector, labels)
+    # print >> output, "RBF SVM Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, ""
+    # print >> output, "Parameters:"
+    # print >> output, search.best_params_
+    # print >> output, ""
+    # print >> output, "Score:"
+    # print >> output, search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    # output.flush()
 
-    rbfparameters = {
-        'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-        'gamma': [pow(2, x) for x in range(-5, 1, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
-    search.fit(vector, labels)
-    print >> output, "RBF SVM Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, ""
-    print >> output, "Parameters:"
-    print >> output, search.best_params_
-    print >> output, ""
-    print >> output, "Score:"
-    print >> output, search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
-    output.flush()
+    # rbfparameters = {
+        # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+        # 'gamma': [pow(2, x) for x in range(-5, 1, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
+    # search.fit(vector, labels)
+    # print >> output, "RBF SVM Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, ""
+    # print >> output, "Parameters:"
+    # print >> output, search.best_params_
+    # print >> output, ""
+    # print >> output, "Score:"
+    # print >> output, search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    # output.flush()
 
-    rbfparameters = {
-        'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-        'gamma': [pow(2, x) for x in range(1, 4, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
-    search.fit(vector, labels)
-    print >> output, "RBF SVM Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, ""
-    print >> output, "Parameters:"
-    print >> output, search.best_params_
-    print >> output, ""
-    print >> output, "Score:"
-    print >> output, search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
+    # rbfparameters = {
+        # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+        # 'gamma': [pow(2, x) for x in range(1, 4, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
+    # search.fit(vector, labels)
+    # print >> output, "RBF SVM Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, ""
+    # print >> output, "Parameters:"
+    # print >> output, search.best_params_
+    # print >> output, ""
+    # print >> output, "Score:"
+    # print >> output, search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    
     output.close()
