@@ -1,20 +1,4 @@
 from __future__ import division
-    rbfparameters = {
-        'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-        'gamma': [pow(2, x) for x in range(-5, 0, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
-    search.fit(vector, true_labels)
-    print >> output, "RBF SVM Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, ""
-    print >> output, "Parameters:"
-    print >> output, search.best_params_
-    print >> output, ""
-    print >> output, "Score:"
-    print >> output, search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
 import numpy as np
 from sklearn import cross_validation
 from sklearn.svm import SVC
@@ -139,3 +123,20 @@ def compare_RBF_parameters(features, true_labels):
     print >> output, "Grid Scores:"
     print >> output, search.grid_scores_
     output.close()
+
+    rbfparameters = {
+        'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+        'gamma': [pow(2, x) for x in range(-5, 0, 2)]  # Possible gamma values for the SVM.
+    }
+    search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
+    search.fit(vector, true_labels)
+    print >> output, "RBF SVM Best Estimator:"
+    print >> output, search.best_estimator_
+    print >> output, ""
+    print >> output, "Parameters:"
+    print >> output, search.best_params_
+    print >> output, ""
+    print >> output, "Score:"
+    print >> output, search.best_score_
+    print >> output, "Grid Scores:"
+    print >> output, search.grid_scores_

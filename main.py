@@ -1,8 +1,10 @@
 import random
-from feat import extract_features, encode_categorical_features
-from svm_prediction import compare_RBF_parameters
-from neural_network_prediction import neural_network_prediction
+
 import numpy as np
+
+from feat import extract_features, encode_categorical_features
+from neural_networks.neural_network_prediction import neural_network_prediction
+from svm_prediction import compare_RBF_parameters
 
 random.seed(0)  # keep seed fixed for reproducibility
 
