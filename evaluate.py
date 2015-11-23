@@ -28,6 +28,28 @@ def clf_evaluate(clf, features, labels, k=5):
     print "Accuracy:", accuracy * 100, '%'
     print "**********************************"
     return cm
+	
+	# Evaluate classifier and return recall, precision, accuracy
+def clf_evaluate_percents(clf, features, labels, k=5):
+
+    cm = [[0,0],[0,0]]
+    kf = KFold(len(labels), n_folds=k)
+    for train_index, test_index in kf:
+        X_train, X_test = features[train_index], features[test_index]
+        y_train, y_test = labels[train_index], labels[test_index]
+        y_pred = clf.fit(X_train, y_train).predict(X_test)       
+        cm = cm + confusion_matrix(y_test, y_pred)
+
+    recall = cm[1][1] / (cm[1][1] + cm[1][0])
+    precision = cm[1][1] / (cm[1][1] + cm[0][1])
+    accuracy = (cm[0][0] + cm[1][1]) / (cm[0][0] + cm[0][1] + cm[1][0] + cm[1][1])
+
+    #print "**********************************"
+   #print "Recall:", recall * 100, '%'
+   # print "Precision:", precision * 100, '%'
+    #print "Accuracy:", accuracy * 100, '%'
+   # print "**********************************"
+    return (recall, precision, accuracy)
 
 # Evaluate regression estimator
 def reg_evaluate(clf, features, labels,k=5):

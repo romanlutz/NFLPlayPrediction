@@ -1,7 +1,9 @@
 import random
 from feat import extract_features, encode_categorical_features
 from svm_prediction import compare_RBF_parameters
+from regression import compute_regression_results
 from neural_network_prediction import neural_network_prediction
+from regression import compute_regression_results
 import numpy as np
 
 random.seed(0)  # keep seed fixed for reproducibility
@@ -13,8 +15,10 @@ def main_valentin():
 
 
 def main_brendan():
-    (features, labels, _, _) = extract_features(2014, 2014)
-    compare_RBF_parameters(features, labels)
+    (features, labels, yards, progress) = extract_features(2014, 2014)
+    #compare_RBF_parameters(features, labels)
+    compute_regression_results(features,yards, "./regression_results_yards.txt")
+    compute_regression_results(features,progress, "./regression_results_progress.txt")
 
 
 def main_roman():
@@ -30,7 +34,7 @@ def main_roman():
     neural_network_prediction(train_x, train_y, test_x, test_y)
 
 def __main__():
-    main_roman()
+    main_brendan()
 
 
 __main__()
