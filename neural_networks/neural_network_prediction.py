@@ -18,8 +18,6 @@ def neural_network_prediction(train_x, train_y, test_x, test_y):
     ds.setField('input', train_x)
     ds.setField('target', train_y.reshape((len(train_y), 1)))
 
-    print ds.indim, ds.outdim
-
     file = open("neural_net_output.txt", "w")
     file.write('epochs & hidden units & hidden class & RMSE(all) & MAE(all)\\\\ \n')
 
@@ -35,10 +33,9 @@ def neural_network_prediction(train_x, train_y, test_x, test_y):
                         hidden_class_name = 'Sigmoid Layer'
 
                     # define number of units per layer
-                    layers = {1: number_of_features}
-                    for i in range(2,number_of_hidden_layers+2):
-                        layers[i] = number_of_hidden_units
-                    layers[number_of_hidden_layers+2] = 1
+                    layers = [number_of_features]
+                    layers.extend([number_of_hidden_units]*number_of_hidden_layers)
+                    layers.append(1)
 
                     #Build Neural Network
                     net = buildNetwork(
@@ -47,8 +44,6 @@ def neural_network_prediction(train_x, train_y, test_x, test_y):
                            hiddenclass = hidden_class,
                            outclass = LinearLayer
                            )
-
-                    print net
 
                     trainer = BackpropTrainer(net, ds, learningrate=0.01, lrdecay=1.0, momentum=0.0, weightdecay=0.0, verbose=True)
 
