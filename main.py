@@ -25,14 +25,14 @@ def main_roman():
     print enc.vocabulary_
 
     neural_network_prediction(features=features,
-                              labels=progress_labels,
+                              labels=yard_labels,
                               k=5,
                               team='all',
-                              target_name='progress',
-                              regression_task=True,
-                              epochs        = [10, 100, 1000],
-                              hidden_layers = [1, 10, 100],
-                              hidden_units  = [10, 100],
+                              target_name='yards',
+                              regression_task=False,
+                              epochs        = [10, 50, 100],
+                              hidden_layers = [1, 10, 50, 100],
+                              hidden_units  = [10, 50, 100],
                               load_previous=True)
 
 def __main__():

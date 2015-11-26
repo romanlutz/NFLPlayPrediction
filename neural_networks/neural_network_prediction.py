@@ -67,7 +67,7 @@ def neural_network_prediction(features, labels, target_name, regression_task=Tru
                         net = build_and_train_network(load_previous, file_name, ds, number_of_features, \
                             number_of_epochs, number_of_hidden_layers, number_of_hidden_units, hidden_class)
 
-                        predictions.concatenate(predict(net, test_x))
+                        np.concatenate(predictions, predict(net, test_x))
 
                     evaluate_accuracy(predictions, labels, regression_task, output_file, configuration)
 
