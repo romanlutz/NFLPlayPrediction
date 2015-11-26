@@ -54,6 +54,8 @@ def neural_network_prediction(features, labels, target_name, regression_task=Tru
                                      'class':  hidden_class_name}
 
                     predictions = np.array([])
+
+                    cross_val_index = 1
                     for train_index, test_index in kf:
                         train_x, test_x = np.array(features[train_index]), np.array(features[test_index])
                         train_y, test_y = np.array(labels[train_index]), np.array(labels[test_index])
@@ -61,13 +63,14 @@ def neural_network_prediction(features, labels, target_name, regression_task=Tru
                         ds, number_of_features = initialize_dataset(regression_task, train_x, train_y)
 
                         file_name = directory + '/' + target_name + '_' + hidden_class_name + \
-                                    '_epochs=%d_layers=%d_units=%d.pickle' % \
-                                    (number_of_epochs, number_of_hidden_layers, number_of_hidden_units)
+                                    '_epochs=%d_layers=%d_units=%d_part=%d.pickle' % \
+                                    (number_of_epochs, number_of_hidden_layers, number_of_hidden_units, cross_val_index)
 
                         net = build_and_train_network(load_previous, file_name, ds, number_of_features, \
                             number_of_epochs, number_of_hidden_layers, number_of_hidden_units, hidden_class)
 
-                        np.concatenate(predictions, predict(net, test_x))
+                        np.concatenate((predictions, predict(net, test_x)))
+                        cross_val_index += 1
 
                     evaluate_accuracy(predictions, labels, regression_task, output_file, configuration)
 
@@ -113,9 +116,9 @@ def build_and_train_network(load_previous, file_name, ds, number_of_features,
                outclass = LinearLayer
                )
 
-    trainer = BackpropTrainer(net, ds, learningrate=0.01, lrdecay=1.0, momentum=0.0, weightdecay=0.0, verbose=True)
+        trainer = BackpropTrainer(net, ds, learningrate=0.01, lrdecay=1.0, momentum=0.0, weightdecay=0.0, verbose=True)
 
-    trainer.trainUntilConvergence(maxEpochs=number_of_epochs)
+        trainer.trainUntilConvergence(maxEpochs=number_of_epochs)
 
     with open(file_name, 'w') as net_file:
         pickle.dump(net, net_file)

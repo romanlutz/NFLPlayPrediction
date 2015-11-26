@@ -24,12 +24,18 @@ def main_roman():
     features, enc = encode_categorical_features(features, sparse=False)
     print enc.vocabulary_
 
+    configurations = {'success':  {'labels': success_labels, 'target': 'success', 'regression': False},
+                      'yards':    {'labels': yard_labels, 'target': 'yards', 'regression': True},
+                      'progress': {'labels': progress_labels, 'target': 'progress', 'regression': True}}
+
+    selected_configuration = 'progress'
+
     neural_network_prediction(features=features,
-                              labels=yard_labels,
+                              labels=configurations[selected_configuration]['labels'],
                               k=5,
                               team='all',
-                              target_name='yards',
-                              regression_task=False,
+                              target_name=configurations[selected_configuration]['target'],
+                              regression_task=configurations[selected_configuration]['regression'],
                               epochs        = [10, 50, 100],
                               hidden_layers = [1, 10, 50, 100],
                               hidden_units  = [10, 50, 100],
