@@ -5,7 +5,8 @@ from pybrain.supervised.trainers import BackpropTrainer
 from pybrain.structure import TanhLayer
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import numpy as np
-import pickle, os
+import pickle
+import os
 from sklearn.cross_validation import KFold
 from sklearn.metrics import confusion_matrix
 from evaluate import plot_confusion_matrix
@@ -154,4 +155,4 @@ def evaluate_regression(predictions, labels, output_file, configuration):
     # format output for LaTeX
     output_file.write('%d & %d & %d & %s & %f & %f \\\\ \n' %
                (configuration['epochs'], configuration['layers'], configuration['units'], configuration['class'],
-                mean_squared_error(test_y, predictions)**0.5, mean_absolute_error(test_y, predictions)))
+                mean_squared_error(labels, predictions)**0.5, mean_absolute_error(labels, predictions)))

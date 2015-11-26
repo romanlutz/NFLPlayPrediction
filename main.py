@@ -24,7 +24,6 @@ def main_roman():
     features, enc = encode_categorical_features(features, sparse=False)
     print enc.vocabulary_
 
-    # hold out 10000 as test set
     neural_network_prediction(features=features,
                               labels=progress_labels,
                               k=5,
