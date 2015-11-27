@@ -39,7 +39,7 @@ def main_roman():
                               epochs        = [10, 50, 100],
                               hidden_layers = [1, 10, 50, 100],
                               hidden_units  = [10, 50, 100],
-                              load_previous=True)
+                              load_previous = True)
 
 def __main__():
     main_roman()
