@@ -50,13 +50,21 @@ def reg_evaluate(clf, features, labels,k=5):
 
 # Create a plot of the confusion matrix
 def plot_confusion_matrix(cm):
+    plt = create_confusion_matrix_plot(cm)
+    plt.show()
+
+def save_confusion_matrix(cm, file_path):
+    plt = create_confusion_matrix_plot(cm)
+    plt.savefig(file)
+
+def create_confusion_matrix_plot(cm):
     cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]*100.0
     plt.matshow(cm_normalized)
     width = len(cm)
     height = len(cm[0])
     for x in xrange(width):
         for y in xrange(height):
-            plt.gca().annotate("{:5.2f} %".format(cm_normalized[x][y]), xy=(y, x), 
+            plt.gca().annotate("{:5.2f} %".format(cm_normalized[x][y]), xy=(y, x),
                         horizontalalignment='center',
                         verticalalignment='center')
 
@@ -67,7 +75,7 @@ def plot_confusion_matrix(cm):
     plt.colorbar()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
-    plt.show()
+    return plt
 
     
 # Create a plot of the decision tree

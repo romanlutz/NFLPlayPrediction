@@ -9,7 +9,7 @@ import pickle
 import os
 from sklearn.cross_validation import KFold
 from sklearn.metrics import confusion_matrix
-from evaluate import plot_confusion_matrix
+from evaluate import save_confusion_matrix
 
 
 def neural_network_prediction(features, labels, target_name, regression_task=True, k=5, team='all',
@@ -55,24 +55,29 @@ def neural_network_prediction(features, labels, target_name, regression_task=Tru
 
                     predictions = np.array([])
 
-                    cross_val_index = 1
-                    for train_index, test_index in kf:
-                        train_x, test_x = np.array(features[train_index]), np.array(features[test_index])
-                        train_y, test_y = np.array(labels[train_index]), np.array(labels[test_index])
+                    try:
 
-                        ds, number_of_features = initialize_dataset(regression_task, train_x, train_y)
+                        cross_val_index = 1
+                        for train_index, test_index in kf:
+                            train_x, test_x = np.array(features[train_index]), np.array(features[test_index])
+                            train_y, test_y = np.array(labels[train_index]), np.array(labels[test_index])
 
-                        file_name = directory + '/' + target_name + '_' + hidden_class_name + \
-                                    '_epochs=%d_layers=%d_units=%d_part=%d.pickle' % \
-                                    (number_of_epochs, number_of_hidden_layers, number_of_hidden_units, cross_val_index)
+                            ds, number_of_features = initialize_dataset(regression_task, train_x, train_y)
 
-                        net = build_and_train_network(load_previous, file_name, ds, number_of_features, \
-                            number_of_epochs, number_of_hidden_layers, number_of_hidden_units, hidden_class)
+                            file_name = directory + '/' + target_name + '_' + hidden_class_name + \
+                                        '_epochs=%d_layers=%d_units=%d_part=%d.pickle' % \
+                                        (number_of_epochs, number_of_hidden_layers, number_of_hidden_units, cross_val_index)
 
-                        np.concatenate((predictions, predict(net, test_x)))
-                        cross_val_index += 1
+                            net = build_and_train_network(load_previous, file_name, ds, number_of_features, \
+                                number_of_epochs, number_of_hidden_layers, number_of_hidden_units, hidden_class)
 
-                    evaluate_accuracy(predictions, labels, regression_task, output_file, configuration)
+                            predictions = np.concatenate((predictions, predict(net, test_x)))
+                            cross_val_index += 1
+
+                        evaluate_accuracy(predictions, labels, regression_task, output_file, configuration)
+
+                    except:
+                        pass
 
     output_file.close()
 
@@ -97,6 +102,7 @@ def build_and_train_network(load_previous, file_name, ds, number_of_features,
             with open(file_name, 'r') as net_file:
                 net = pickle.load(net_file)
             load_failed = False
+            print 'succeed to load previously trained network'
         except:
             load_failed = True
             print 'failed to load previously trained network'
@@ -120,6 +126,8 @@ def build_and_train_network(load_previous, file_name, ds, number_of_features,
 
         trainer.trainUntilConvergence(maxEpochs=number_of_epochs)
 
+        print 'trained new network'
+
     with open(file_name, 'w') as net_file:
         pickle.dump(net, net_file)
     print 'saved new network to file ' + file_name
@@ -142,11 +150,11 @@ def evaluate_accuracy(predictions, labels, regression_task, output_file, configu
 
 
 def evaluate_classification(predictions, labels, output_file, configuration):
-    cm = confusion_matrix(labels, predictions)
+    cm = confusion_matrix(labels, [0 if p < 0.5 else 1 for p in predictions])
     recall = cm[1][1] / (cm[1][1] + cm[1][0])
     precision = cm[1][1] / (cm[1][1] + cm[0][1])
     accuracy = (cm[0][0] + cm[1][1]) / (cm[0][0] + cm[0][1] + cm[1][0] + cm[1][1])
-    plot_confusion_matrix(cm)
+    save_confusion_matrix(cm, output_file[:-7] + '.png')
 
     # format output for LaTeX
     output_file.write('%d & %d & %d & %s & %f & %f & %f \\\\ \n' %

@@ -28,7 +28,7 @@ def main_roman():
                       'yards':    {'labels': yard_labels, 'target': 'yards', 'regression': True},
                       'progress': {'labels': progress_labels, 'target': 'progress', 'regression': True}}
 
-    selected_configuration = 'progress'
+    selected_configuration = 'success'
 
     neural_network_prediction(features=features,
                               labels=configurations[selected_configuration]['labels'],
