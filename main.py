@@ -36,7 +36,7 @@ def main_roman():
                               team='all',
                               target_name=configurations[selected_configuration]['target'],
                               regression_task=configurations[selected_configuration]['regression'],
-                              epochs        = [10, 50, 100],
+                              epochs        = [100]#[10, 50, 100],
                               hidden_layers = [1, 10, 50, 100],
                               hidden_units  = [10, 50, 100],
                               load_previous = True)
