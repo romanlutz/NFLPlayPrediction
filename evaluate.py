@@ -21,12 +21,15 @@ def clf_evaluate(clf, features, labels, k=5):
     recall = cm[1][1] / (cm[1][1] + cm[1][0])
     precision = cm[1][1] / (cm[1][1] + cm[0][1])
     accuracy = (cm[0][0] + cm[1][1]) / (cm[0][0] + cm[0][1] + cm[1][0] + cm[1][1])
+    f1 = (2*precision*recall)/(precision+recall)
 
     print "**********************************"
-    print "Recall:", recall * 100, '%'
-    print "Precision:", precision * 100, '%'
     print "Accuracy:", accuracy * 100, '%'
+    print "Precision:", precision * 100, '%'
+    print "Recall:", recall * 100, '%'
+    print "F1:",f1 * 100, '%' 
     print "**********************************"
+    
     return cm
 
 # Evaluate regression estimator
