@@ -32,10 +32,12 @@ def clf_evaluate(clf, features, labels, k=5):
     
     return cm
 
+import math
 # Evaluate regression estimator
 def reg_evaluate(clf, features, labels,k=5):
 
-    diffs = []
+    abs_diffs = []
+    mse_diffs = []
     kf = KFold(len(labels), n_folds=k)
     for train_index, test_index in kf:
         X_train, X_test = features[train_index], features[test_index]
@@ -45,10 +47,14 @@ def reg_evaluate(clf, features, labels,k=5):
         y_pred = clf.predict(X_test)
         for idx in range(len(y_pred)):    
             d = abs(y_pred[idx] - y_test[idx])
-            diffs.append(d)
-    avg_diff = sum(diffs)/len(diffs)
-    print avg_diff
-    return diffs
+            abs_diffs.append(d)
+            d = d*d
+            mse_diffs.append(d)
+            
+    avg_abs_diff = sum(abs_diffs)/len(abs_diffs)
+    avg_mse_diff = math.sqrt(sum(mse_diffs)/len(mse_diffs))
+    print "MAE:",avg_abs_diff,'/ RMSE:',avg_mse_diff
+    return abs_diffs
     
 
 # Create a plot of the confusion matrix
