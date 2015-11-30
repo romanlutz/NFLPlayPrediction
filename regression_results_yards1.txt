@@ -1,0 +1,18 @@
+**********************************
+LinearRegression
+Average Difference from Goal:  5.57152185601
+**********************************
+**********************************
+RBF SVR, C=2048, Gamma= 2^-17
+Average Difference from Goal:  5.1918632745
+**********************************
+**********************************
+Searching for SVR RBF Parameters
+RBF SVR Best Estimator:
+SVR(C=128, cache_size=200, coef0=0.0, degree=3, epsilon=0.1,
+  gamma=7.62939453125e-06, kernel='rbf', max_iter=-1, shrinking=True,
+  tol=0.001, verbose=False)
+Best Parameters:  {'C': 128, 'gamma': 7.62939453125e-06}
+Mean-Squared-Error Score:  -77.3568079455
+Grid Scores:
+[mean: -79.87317, std: 2.11510, params: {'C': 0.03125, 'gamma': 7.62939453125e-06}, mean: -79.45318, std: 2.25127, params: {'C': 0.03125, 'gamma': 3.0517578125e-05}, mean: -79.16420, std: 2.25898, params: {'C': 0.125, 'gamma': 7.62939453125e-06}, mean: -79.02305, std: 2.23068, params: {'C': 0.125, 'gamma': 3.0517578125e-05}, mean: -78.95884, std: 2.26308, params: {'C': 0.5, 'gamma': 7.62939453125e-06}, mean: -78.72415, std: 2.23676, params: {'C': 0.5, 'gamma': 3.0517578125e-05}, mean: -78.69598, std: 2.25145, params: {'C': 2, 'gamma': 7.62939453125e-06}, mean: -78.29253, std: 2.24302, params: {'C': 2, 'gamma': 3.0517578125e-05}, mean: -78.24052, std: 2.22457, params: {'C': 8, 'gamma': 7.62939453125e-06}, mean: -77.91646, std: 2.24108, params: {'C': 8, 'gamma': 3.0517578125e-05}, mean: -77.67174, std: 2.21225, params: {'C': 32, 'gamma': 7.62939453125e-06}, mean: -77.43278, std: 2.20304, params: {'C': 32, 'gamma': 3.0517578125e-05}, mean: -77.35681, std: 2.18270, params: {'C': 128, 'gamma': 7.62939453125e-06}, mean: -77.90462, std: 2.17597, params: {'C': 128, 'gamma': 3.0517578125e-05}, mean: -79.18544, std: 2.15941, params: {'C': 512, 'gamma': 7.62939453125e-06}, mean: -80.63124, std: 2.17872, params: {'C': 512, 'gamma': 3.0517578125e-05}, mean: -81.11390, std: 2.23104, params: {'C': 2048, 'gamma': 7.62939453125e-06}, mean: -81.05555, std: 2.24228, params: {'C': 2048, 'gamma': 3.0517578125e-05}, mean: -81.21124, std: 2.25516, params: {'C': 8192, 'gamma': 7.62939453125e-06}, mean: -81.01021, std: 2.24215, params: {'C': 8192, 'gamma': 3.0517578125e-05}, mean: -81.10835, std: 2.22663, params: {'C': 32768, 'gamma': 7.62939453125e-06}, mean: -80.94077, std: 2.28162, params: {'C': 32768, 'gamma': 3.0517578125e-05}]
