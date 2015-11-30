@@ -1,3 +1,4 @@
 .git/**
 .idea/**
 .ipynb_checkpoints/**
+/papers/**

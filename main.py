@@ -1,8 +1,10 @@
 import random
+
+import numpy as np
+
 from feat import extract_features, encode_categorical_features
+from neural_networks.neural_network_prediction import neural_network_prediction
 from svm_prediction import compare_RBF_parameters
-from regression import compute_regression_results
-from neural_network_prediction import neural_network_prediction
 from regression import compute_regression_results
 import numpy as np
 
@@ -22,16 +24,26 @@ def main_brendan():
 
 
 def main_roman():
-    (features, labels, _, _) = extract_features(2014, 2014)
+    (features, success_labels, yard_labels, progress_labels) = extract_features(2009, 2014)
     features, enc = encode_categorical_features(features, sparse=False)
     print enc.vocabulary_
 
-    # hold out 10000 as test set
-    train_x = np.array(features[:-10000])
-    train_y = np.array(labels[:-10000])
-    test_x = np.array(features[-10000:])
-    test_y = np.array(labels[-10000:])
-    neural_network_prediction(train_x, train_y, test_x, test_y)
+    configurations = {'success':  {'labels': success_labels, 'target': 'success', 'regression': False},
+                      'yards':    {'labels': yard_labels, 'target': 'yards', 'regression': True},
+                      'progress': {'labels': progress_labels, 'target': 'progress', 'regression': True}}
+
+    selected_configuration = 'success'
+
+    neural_network_prediction(features=features,
+                              labels=configurations[selected_configuration]['labels'],
+                              k=5,
+                              team='all',
+                              target_name=configurations[selected_configuration]['target'],
+                              regression_task=configurations[selected_configuration]['regression'],
+                              epochs        = [100]#[10, 50, 100],
+                              hidden_layers = [1, 10, 50, 100],
+                              hidden_units  = [10, 50, 100],
+                              load_previous = True)
 
 def __main__():
     main_brendan()

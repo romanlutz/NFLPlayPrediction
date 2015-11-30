@@ -39,7 +39,7 @@ def compute_regression_results(features, goals, outputfile):
     print >> output, "**********************************"
     output.flush()
 	
-    rbfsvr = SVR(C = 2048, kernel='rbf', gamma=pow(2,-17))
+    rbfsvr = SVR(C = 128, kernel='rbf', gamma=pow(2,-17))
     diffs = reg_evaluate(rbfsvr, vector, targets)
     avg_diff = sum(diffs)/len(diffs)
     print >> output, "**********************************"
@@ -51,19 +51,19 @@ def compute_regression_results(features, goals, outputfile):
     print >> output, "**********************************"
     print >> output, "Searching for SVR RBF Parameters"
 	
-    rbfparameters = {
-         'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-         'gamma': [pow(2, x) for x in range(-17, -13, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
-    search.fit(vector, targets)
-    print >> output, "RBF SVR Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, "Best Parameters: ", search.best_params_
-    print >> output, "Mean-Squared-Error Score: ", search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
-    output.flush()
+#    rbfparameters = {
+#         'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+#         'gamma': [pow(2, x) for x in range(-17, -13, 2)]  # Possible gamma values for the SVM.
+#    }
+#    search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
+#    search.fit(vector, targets)
+#    print >> output, "RBF SVR Best Estimator:"
+#    print >> output, search.best_estimator_
+#    print >> output, "Best Parameters: ", search.best_params_
+#    print >> output, "Mean-Squared-Error Score: ", search.best_score_
+#    print >> output, "Grid Scores:"
+#    print >> output, search.grid_scores_
+#    output.flush()
 	
     rbfparameters = {
          'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
