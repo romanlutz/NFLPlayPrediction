@@ -275,18 +275,19 @@ def extract_features(start_year, end_year):
                                 success = 1
                                 success_cnt += 1
                             
+                            # OLD VERSION - NOT USED ANYMORE
                             # progress label calculation
-                            if yards < play.yards_togo:
-                                if play.down > 2:
-                                    progress = 0
-                                elif play.down == 2:
-                                    progress = float(yards) / float(play.yards_togo)
-                                else: # 1st down - two attempts left
-                                    progress = float(yards) * 2.0 / float(play.yards_togo)
-                            else:
-                                progress = 1 + float(yards - play.yards_togo) / 10.0
+                            #if yards < play.yards_togo:
+                            #    if play.down > 2:
+                            #        progress = 0
+                            #    elif play.down == 2:
+                            #        progress = float(yards) / float(play.yards_togo)
+                            #    else: # 1st down - two attempts left
+                            #        progress = float(yards) * 2.0 / float(play.yards_togo)
+                            #else:
+                            #    progress = 1 + float(yards - play.yards_togo) / 10.0
                               
-                            # progress version 2 - currently not used
+                            # progress version 2 
                             if yards >= play.yards_togo:
                                 pv2 == 1
                             elif play.down == 1:
@@ -304,7 +305,7 @@ def extract_features(start_year, end_year):
                     play_features.append(features)
                     success_labels.append(success)
                     yard_labels.append(yards)
-                    progress_labels.append(progress)
+                    progress_labels.append(pv2)
                     
                     
 
