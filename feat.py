@@ -285,7 +285,14 @@ def extract_features(start_year, end_year):
                                     progress = float(yards) * 2.0 / float(play.yards_togo)
                             else:
                                 progress = 1 + float(yards - play.yards_togo) / 10.0
-                                
+                              
+                            # progress version 2 - currently not used
+                            if yards >= play.yards_togo:
+                                pv2 == 1
+                            elif play.down == 1:
+                                pv2 = float(yards) / float(play.yards_togo)
+                            elif play.down == 2:
+                                pv2 = (float(yards) / float(play.yards_togo))**2
                             
                                  
                                 
