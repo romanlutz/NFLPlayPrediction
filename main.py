@@ -32,7 +32,7 @@ def main_roman():
                       'yards':    {'labels': yard_labels, 'target': 'yards', 'regression': True},
                       'progress': {'labels': progress_labels, 'target': 'progress', 'regression': True}}
 
-    selected_configuration = 'success'
+    selected_configuration = 'progress'
 
     neural_network_prediction(features=features,
                               labels=configurations[selected_configuration]['labels'],
@@ -40,8 +40,8 @@ def main_roman():
                               team='all',
                               target_name=configurations[selected_configuration]['target'],
                               regression_task=configurations[selected_configuration]['regression'],
-                              epochs        = [100]#[10, 50, 100],
-                              hidden_layers = [1, 10, 50, 100],
+                              epochs        = [10],
+                              hidden_layers = [1, 10],
                               hidden_units  = [10, 50, 100],
                               load_previous = True)
 

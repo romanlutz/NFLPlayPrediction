@@ -276,23 +276,14 @@ def extract_features(start_year, end_year):
                                 success_cnt += 1
                             
                             # progress label calculation
-                            if yards < play.yards_togo:
-                                if play.down > 2:
-                                    progress = 0
-                                elif play.down == 2:
-                                    progress = float(yards) / float(play.yards_togo)
-                                else: # 1st down - two attempts left
-                                    progress = float(yards) * 2.0 / float(play.yards_togo)
-                            else:
-                                progress = 1 + float(yards - play.yards_togo) / 10.0
-                              
-                            # progress version 2 - currently not used
                             if yards >= play.yards_togo:
-                                pv2 == 1
-                            elif play.down == 1:
-                                pv2 = float(yards) / float(play.yards_togo)
-                            elif play.down == 2:
-                                pv2 = (float(yards) / float(play.yards_togo))**2
+                                # new first down reached
+                                progress == 1
+                            elif play.down in [1, 2]:
+                                progress = float(yards) / float(play.yards_togo)**play.down
+                            else:
+                                # 3rd or 4th down attempt without conversion
+                                progress = 0
                             
                                  
                                 
@@ -322,31 +313,7 @@ def extract_features(start_year, end_year):
                     print "############################################################"
                 """
 
-                '''
-                # Some debug code (Roman)
-                else:
-                    if 'Timeout' not in play.desc and \
-                                    'kicks' not in play.desc and \
-                                    'kneels' not in play.desc and \
-                                    'Field Goal' not in play.desc and\
-                                    'field goal' not in play.desc and\
-                                    'Two-Minute-Warning' not in play.desc and \
-                                    'END' not in play.desc and\
-                                    'Two-Point' not in play.desc and\
-                                    'TWO-POINT' not in play.desc and\
-                                    'Two-Minute' not in play.desc and\
-                                    'punts' not in play.desc and\
-                                    'Punt' not in play.desc and\
-                                    'spiked' not in play.desc and\
-                                    'extra point' not in play.desc and\
-                                    'False Start' not in play.desc and\
-                                    'Delay of Game' not in play.desc and\
-                                    'No Play' not in play.desc and\
-                                    'BLOCKED' not in play.desc and\
-                                    'FUMBLES' not in play.desc and\
-                                    'sacked' not in play.desc:
-                        print play.desc
-                '''
+
 
     print len(play_features)
 
