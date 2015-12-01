@@ -54,7 +54,7 @@ def reg_evaluate(clf, features, labels,k=5):
     avg_abs_diff = sum(abs_diffs)/len(abs_diffs)
     avg_mse_diff = math.sqrt(sum(mse_diffs)/len(mse_diffs))
     print "MAE:",avg_abs_diff,'/ RMSE:',avg_mse_diff
-    return abs_diffs
+    return abs_diffs,mse_diffs,avg_abs_diff,avg_mse_diff
     
 
 # Create a plot of the confusion matrix

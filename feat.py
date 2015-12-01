@@ -26,6 +26,7 @@ def extract_features(start_year, end_year):
                 success = 0
                 yards = 0
                 progress = 0
+                pv2 = 0
                 desc = ''
 
                 # TODO: include sacks? probably not since we can't assign them to any play option
@@ -273,7 +274,7 @@ def extract_features(start_year, end_year):
                             elif yards >= play.yards_togo:
                                 success = 1
                                 success_cnt += 1
-
+                            
                             # progress label calculation
                             if yards < play.yards_togo:
                                 if play.down > 2:
@@ -284,6 +285,9 @@ def extract_features(start_year, end_year):
                                     progress = float(yards) * 2.0 / float(play.yards_togo)
                             else:
                                 progress = 1 + float(yards - play.yards_togo) / 10.0
+                                
+                            
+                                 
                                 
                     if features['side'] not in ['middle','left','right']:                        
                         print play.desc
