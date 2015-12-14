@@ -7,26 +7,31 @@ import os
 from sklearn.cross_validation import KFold
 
 
-
+from collections import defaultdict
 def predict_superbowl(encoder, clf):
     #Predict result for play
-    X = defaultdict(float)
-    X['team'] = "SEA"
-    X['opponent'] = "NE"
-    X['time'] = 26
-    X['half'] = 1 
-    X['position'] = 1
-    X['half'] = 2
-    X['togo'] = 1
-    X['shotgun'] = 1
-    X['pass'] = 1
-    X['passlen'] = 'short'
-    X['side'] = 'right'
-    X['qbrun'] = 0
-    X = encoder.transform(X)
+    
+    for p in [0,1]:
+        for side in ['left','middle','right']:            
+            X = defaultdict(float)
+            X['team'] = "SEA"
+            X['opponent'] = "NE"
+            X['time'] = 26
+            X['position'] = 1
+            X['half'] = 2
+            X['togo'] = 1
+            X['shotgun'] = 1
+            X['pass'] = p
+            if p == 1:
+                X['passlen'] = 'short'
+            
+            X['side'] = side
+            X['qbrun'] = 0
+            X['down'] = 2
+            X = encoder.transform(X)
 
-    y_pred = clf.predict(X)
-    print y_pred
+            y_pred = clf.predict(X)
+            print p,side,y_pred
     return y_pred
 
 # Evaluate classifier
