@@ -7,6 +7,7 @@ from neural_networks.neural_network_prediction import neural_network_prediction
 from svm_prediction import compare_RBF_parameters
 from regression import compute_regression_results
 import numpy as np
+from feat import get_team_features
 
 random.seed(0)  # keep seed fixed for reproducibility
 
@@ -17,12 +18,18 @@ def main_valentin():
 
 
 def main_brendan():
-    (features, labels, yards, progress) = extract_features(2014, 2014)
+    (features, labels, yards, progress) = extract_features(2009, 2014)
     #compare_RBF_parameters(features, labels)
-    compute_regression_results(features,yards, "./regression_results_yards.txt")
     compute_regression_results(features,progress, "./regression_results_progress.txt")
+    compute_regression_results(features,yards, "./regression_results_yards.txt")
 
-
+    #features, labels, yards, progress = get_team_features("NO", features, labels, "team")
+    #compute_regression_results(features, yards, "./regression_results_team_NO_yards")
+   # compute_regression_results(features, progress, "./regression_results_team_NO_progress")
+    #features, labels, yards, progress = get_team_features("NYJ", features, labels, "opponent")
+    #compute_regression_results(features, yards, "./regression_results_opp_NYJ_yards")
+    #compute_regression_results(features, progress, "./regression_results_opp_NYJ_progress")
+    
 def main_roman():
     (features, success_labels, yard_labels, progress_labels) = extract_features(2009, 2014)
     features, enc = encode_categorical_features(features, sparse=False)

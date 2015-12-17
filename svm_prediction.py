@@ -62,10 +62,33 @@ def compare_RBF_parameters(features, true_labels):
     ldaclassifier = LinearDiscriminantAnalysis()
     (recall,precision,accuracy) = clf_evaluate_percents(ldaclassifier, vector,labels);
     print >> output, "**********************************"
-    print >> output, "LDA"
+    print >> output, "SVD LDA"
     print >> output, "Recall:", recall * 100, '%'
     print >> output, "Precision:", precision * 100, '%'
     print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "F1:", 2*(recall* precision)/(recall + precision)
+    print >> output, "**********************************"
+    output.flush()
+	
+    ldaclassifier = LinearDiscriminantAnalysis(solver='lsqr', shrinkage='auto')
+    (recall,precision,accuracy) = clf_evaluate_percents(ldaclassifier, vector,labels);
+    print >> output, "**********************************"
+    print >> output, "LSQR LDA"
+    print >> output, "Recall:", recall * 100, '%'
+    print >> output, "Precision:", precision * 100, '%'
+    print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "F1:", 2*(recall* precision)/(recall + precision)
+    print >> output, "**********************************"
+    output.flush()
+	
+    ldaclassifier = LinearDiscriminantAnalysis(solver='eigen', shrinkage='auto')
+    (recall,precision,accuracy) = clf_evaluate_percents(ldaclassifier, vector,labels);
+    print >> output, "**********************************"
+    print >> output, "Eigenvalue Decomposition LDA"
+    print >> output, "Recall:", recall * 100, '%'
+    print >> output, "Precision:", precision * 100, '%'
+    print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "F1:", 2*(recall* precision)/(recall + precision)
     print >> output, "**********************************"
     output.flush()
 	
@@ -76,6 +99,7 @@ def compare_RBF_parameters(features, true_labels):
     print >> output, "Recall:", recall * 100, '%'
     print >> output, "Precision:", precision * 100, '%'
     print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "F1:", 2*(recall* precision)/(recall + precision)
     print >> output, "**********************************"
     output.flush()
 	
@@ -86,6 +110,7 @@ def compare_RBF_parameters(features, true_labels):
     print >> output, "Recall:", recall * 100, '%'
     print >> output, "Precision:", precision * 100, '%'
     print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "F1:", 2*(recall* precision)/(recall + precision)
     print >> output, "**********************************"
     output.flush()
 	
@@ -97,6 +122,7 @@ def compare_RBF_parameters(features, true_labels):
     print >> output, "Recall:", recall * 100, '%'
     print >> output, "Precision:", precision * 100, '%'
     print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "F1:", 2*(recall* precision)/(recall + precision)
     print >> output, "**********************************"
     output.flush()
 	
@@ -109,6 +135,7 @@ def compare_RBF_parameters(features, true_labels):
     print >> output, "Recall:", recall * 100, '%'
     print >> output, "Precision:", precision * 100, '%'
     print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "F1:", 2*(recall* precision)/(recall + precision)
     print >> output, "**********************************"
     output.flush()
 	
@@ -120,6 +147,7 @@ def compare_RBF_parameters(features, true_labels):
     print >> output, "Recall:", recall * 100, '%'
     print >> output, "Precision:", precision * 100, '%'
     print >> output, "Accuracy:", accuracy * 100, '%'
+    print >> output, "F1:", 2*(recall* precision)/(recall + precision)
     print >> output, "**********************************"
     output.flush()
 	
@@ -231,19 +259,19 @@ def compare_RBF_parameters(features, true_labels):
     
     output.close()
 
-    rbfparameters = {
-        'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-        'gamma': [pow(2, x) for x in range(-5, 0, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
-    search.fit(vector, true_labels)
-    print >> output, "RBF SVM Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, ""
-    print >> output, "Parameters:"
-    print >> output, search.best_params_
-    print >> output, ""
-    print >> output, "Score:"
-    print >> output, search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
+    # rbfparameters = {
+        # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+        # 'gamma': [pow(2, x) for x in range(-5, 0, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVC(class_weight='auto'), rbfparameters, cv=3, n_jobs=-1, verbose=1)
+    # search.fit(vector, true_labels)
+    # print >> output, "RBF SVM Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, ""
+    # print >> output, "Parameters:"
+    # print >> output, search.best_params_
+    # print >> output, ""
+    # print >> output, "Score:"
+    # print >> output, search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_

@@ -1,0 +1,10 @@
+**********************************
+LinearRegression
+Average Difference from Goal:  0.141159293709
+Average MSE from Goal:  0.22834163973
+**********************************
+**********************************
+RBF SVR, C=2048, Gamma= 2^-17
+Average Difference from Goal:  0.135076641058
+Average MSE from Goal:  0.233201578964
+**********************************
