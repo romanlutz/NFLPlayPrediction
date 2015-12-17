@@ -51,10 +51,10 @@ def clf_evaluate(clf, features, labels, k=5):
     f1 = (2*precision*recall)/(precision+recall)
 
     print "**********************************"
-    print "Accuracy:", accuracy * 100, '%'
-    print "Precision:", precision * 100, '%'
-    print "Recall:", recall * 100, '%'
-    print "F1:",f1 * 100, '%' 
+    print "Accuracy:", ("%.3f" % (accuracy * 100)), '%'
+    print "Precision:", ("%.3f" % (precision * 100)), '%'
+    print "Recall:", ("%.3f" % (recall * 100)), '%'
+    print "F1:",("%.3f" % (f1 * 100)), '%' 
     print "**********************************"
     
     return cm
@@ -103,7 +103,10 @@ def reg_evaluate(clf, features, labels,k=5):
             
     avg_abs_diff = sum(abs_diffs)/len(abs_diffs)
     avg_mse_diff = math.sqrt(sum(mse_diffs)/len(mse_diffs))
-    print "MAE:",avg_abs_diff,'/ RMSE:',avg_mse_diff
+    print "MAE:",
+    print("%.4f" % avg_abs_diff),
+    print '/ RMSE:',
+    print ("%.4f" % avg_mse_diff)
     return abs_diffs,mse_diffs,avg_abs_diff,avg_mse_diff
     
 

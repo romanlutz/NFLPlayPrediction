@@ -279,8 +279,8 @@ def extract_features(start_year, end_year):
                             if yards >= play.yards_togo:
                                 # new first down reached
                                 progress == 1
-                            elif play.down in [1, 2]:
-                                progress = float(yards) / float(play.yards_togo)**play.down
+                            elif (play.down in [1, 2]) and (yards > 0):                                
+                                progress = (float(yards) / float(play.yards_togo))**play.down
                             else:
                                 # 3rd or 4th down attempt without conversion
                                 progress = 0
