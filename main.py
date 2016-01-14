@@ -32,21 +32,24 @@ def main_roman():
                       'yards':    {'labels': yard_labels, 'target': 'yards', 'regression': True},
                       'progress': {'labels': progress_labels, 'target': 'progress', 'regression': True}}
 
-    selected_configuration = 'progress'
+    selected_configuration = 'success'
 
     neural_network_prediction(features=features,
                               labels=configurations[selected_configuration]['labels'],
                               k=5,
-                              team='all',
+                              team='all', suffix='_100_5_100_tanh',
                               target_name=configurations[selected_configuration]['target'],
                               regression_task=configurations[selected_configuration]['regression'],
-                              epochs        = [10],
-                              hidden_layers = [1, 10],
-                              hidden_units  = [10, 50, 100],
-                              load_previous = True)
+                              epochs        = [100],
+                              hidden_layers = [5],
+                              hidden_units  = [100],
+                              load_previous = True,
+                              tanh=True,
+                              sigmoid=False,
+                              linear=False)
 
 def __main__():
-    main_brendan()
+    main_roman()
 
 
 __main__()

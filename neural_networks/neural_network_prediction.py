@@ -12,7 +12,7 @@ from sklearn.metrics import confusion_matrix
 from evaluate import save_confusion_matrix
 
 
-def neural_network_prediction(features, labels, target_name, regression_task=True, k=5, team='all',
+def neural_network_prediction(features, labels, target_name, regression_task=True, k=5, team='all', suffix='',
                               epochs=[100], hidden_layers=[10], hidden_units=[10],
                               sigmoid=True, tanh=True, linear=True, load_previous=True):
 
@@ -23,7 +23,8 @@ def neural_network_prediction(features, labels, target_name, regression_task=Tru
     if not os.path.isdir(directory):
         os.mkdir(directory)
 
-    output_file = open(directory + "/neural_net_results_" + target_name + ".txt", "w")
+    output_file_name = directory + "/neural_net_results_" + target_name + suffix + ".txt"
+    output_file = open(output_file_name, "w")
     if regression_task:
         output_file.write('epochs & hidden layers & hidden units & hidden class & RMSE(all) & MAE(all)\\\\ \n')
     else:
@@ -55,8 +56,8 @@ def neural_network_prediction(features, labels, target_name, regression_task=Tru
 
                     predictions = np.array([])
 
-                    try:
-
+                    #try:
+                    for i in range(1):
                         cross_val_index = 1
                         for train_index, test_index in kf:
                             train_x, test_x = np.array(features[train_index]), np.array(features[test_index])
@@ -74,10 +75,10 @@ def neural_network_prediction(features, labels, target_name, regression_task=Tru
                             predictions = np.concatenate((predictions, predict(net, test_x)))
                             cross_val_index += 1
 
-                        evaluate_accuracy(predictions, labels, regression_task, output_file, configuration)
+                        evaluate_accuracy(predictions, labels, regression_task, file_name, output_file, configuration)
 
-                    except:
-                        pass
+                    #except:
+                    #    pass
 
     output_file.close()
 
@@ -142,24 +143,30 @@ def predict(net, feature_vectors):
     return np.array(predictions)
 
 
-def evaluate_accuracy(predictions, labels, regression_task, output_file, configuration):
+def evaluate_accuracy(predictions, labels, regression_task, output_file_name, output_file, configuration):
     if regression_task:
         evaluate_regression(predictions, labels, output_file, configuration)
     else:
-        evaluate_classification(predictions, labels, output_file, configuration)
+        evaluate_classification(predictions, labels, output_file_name, output_file, configuration)
 
 
-def evaluate_classification(predictions, labels, output_file, configuration):
+def evaluate_classification(predictions, labels, output_file_name, output_file, configuration):
+    print labels[:10], [0 if p < 0.5 else 1 for p in predictions[:10]]
     cm = confusion_matrix(labels, [0 if p < 0.5 else 1 for p in predictions])
-    recall = cm[1][1] / (cm[1][1] + cm[1][0])
-    precision = cm[1][1] / (cm[1][1] + cm[0][1])
-    accuracy = (cm[0][0] + cm[1][1]) / (cm[0][0] + cm[0][1] + cm[1][0] + cm[1][1])
-    save_confusion_matrix(cm, output_file[:-7] + '.png')
+    print cm, cm[0][0],  cm[0][1], cm[1][0],  cm[1][1], float(cm[0][0] + cm[0][1] + cm[1][0] + cm[1][1])
+    recall = float(cm[1][1]) / float(cm[1][1] + cm[1][0]) \
+        if cm[1][1] + cm[1][0] > 0 else 0
+    precision = float(cm[1][1]) / float(cm[1][1] + cm[0][1]) \
+        if cm[1][1] + cm[0][1] > 0 else 0
+    accuracy = float(cm[0][0] + cm[1][1]) / float(cm[0][0] + cm[0][1] + cm[1][0] + cm[1][1]) \
+        if cm[0][0] + cm[0][1] + cm[1][0] + cm[1][1] > 0 else 0
+    f1 = float(2*precision*recall)/float(precision+recall) if precision + recall > 0 else 0
+    save_confusion_matrix(cm, output_file_name[:-7] + '.png')
 
     # format output for LaTeX
-    output_file.write('%d & %d & %d & %s & %f & %f & %f \\\\ \n' %
+    output_file.write('%d & %d & %d & %s & %f & %f & %f & %f \\\\ \n' %
                (configuration['epochs'], configuration['layers'], configuration['units'], configuration['class'],
-                accuracy, precision, recall))
+                accuracy, precision, recall, f1))
 
 
 def evaluate_regression(predictions, labels, output_file, configuration):

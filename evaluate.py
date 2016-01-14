@@ -87,7 +87,7 @@ def plot_confusion_matrix(cm):
 
 def save_confusion_matrix(cm, file_path):
     plt = create_confusion_matrix_plot(cm)
-    plt.savefig(file)
+    plt.savefig(file_path)
 
 def create_confusion_matrix_plot(cm):
     cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]*100.0
