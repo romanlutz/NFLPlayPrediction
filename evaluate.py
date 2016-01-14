@@ -7,6 +7,33 @@ import os
 from sklearn.cross_validation import KFold
 
 
+from collections import defaultdict
+def predict_superbowl(encoder, clf):
+    #Predict result for play
+    
+    for p in [0,1]:
+        for side in ['left','middle','right']:            
+            X = defaultdict(float)
+            X['team'] = "SEA"
+            X['opponent'] = "NE"
+            X['time'] = 26
+            X['position'] = 1
+            X['half'] = 2
+            X['togo'] = 1
+            X['shotgun'] = 1
+            X['pass'] = p
+            if p == 1:
+                X['passlen'] = 'short'
+            
+            X['side'] = side
+            X['qbrun'] = 0
+            X['down'] = 2
+            X = encoder.transform(X)
+
+            y_pred = clf.predict(X)
+            print p,side,y_pred
+    return y_pred
+
 # Evaluate classifier
 def clf_evaluate(clf, features, labels, k=5):
 
@@ -24,10 +51,10 @@ def clf_evaluate(clf, features, labels, k=5):
     f1 = (2*precision*recall)/(precision+recall)
 
     print "**********************************"
-    print "Accuracy:", accuracy * 100, '%'
-    print "Precision:", precision * 100, '%'
-    print "Recall:", recall * 100, '%'
-    print "F1:",f1 * 100, '%' 
+    print "Accuracy:", ("%.3f" % (accuracy * 100)), '%'
+    print "Precision:", ("%.3f" % (precision * 100)), '%'
+    print "Recall:", ("%.3f" % (recall * 100)), '%'
+    print "F1:",("%.3f" % (f1 * 100)), '%' 
     print "**********************************"
     
     return cm
@@ -76,7 +103,10 @@ def reg_evaluate(clf, features, labels,k=5):
             
     avg_abs_diff = sum(abs_diffs)/len(abs_diffs)
     avg_mse_diff = math.sqrt(sum(mse_diffs)/len(mse_diffs))
-    print "MAE:",avg_abs_diff,'/ RMSE:',avg_mse_diff
+    print "MAE:",
+    print("%.4f" % avg_abs_diff),
+    print '/ RMSE:',
+    print ("%.4f" % avg_mse_diff)
     return abs_diffs,mse_diffs,avg_abs_diff,avg_mse_diff
     
 

@@ -10,6 +10,8 @@ from sklearn.svm import SVR
 from collections import Counter
 from random import random
 from evaluate import reg_evaluate
+from feat import get_team_features
+from sklearn.externals import joblib
 
 '''
 estimator = the SVM you wish to use to classify the data
@@ -31,25 +33,27 @@ def compute_regression_results(features, goals, outputfile):
     output = open(outputfile, 'w+')
 	
     linreg = LinearRegression(normalize=True)
-    diffs = reg_evaluate(linreg, vector, targets)
-    avg_diff = sum(diffs)/len(diffs)
+    abs_dif, mse_diff, avg_diff, avg_mse_diff = reg_evaluate(linreg, vector, targets)
     print >> output, "**********************************"
     print >> output, "LinearRegression"
     print >> output, "Average Difference from Goal: ", avg_diff
+    print >> output, "Average MSE from Goal: ", avg_mse_diff
     print >> output, "**********************************"
     output.flush()
+    joblib.dump(linreg, outputfile + 'linreg.pkl')
 	
     rbfsvr = SVR(C = 128, kernel='rbf', gamma=pow(2,-17))
-    diffs = reg_evaluate(rbfsvr, vector, targets)
-    avg_diff = sum(diffs)/len(diffs)
+    abs_dif, mse_diff, avg_diff, avg_mse_diff = reg_evaluate(rbfsvr, vector, targets)
     print >> output, "**********************************"
     print >> output, "RBF SVR, C=2048, Gamma= 2^-17"
     print >> output, "Average Difference from Goal: ", avg_diff
+    print >> output, "Average MSE from Goal: ", avg_mse_diff
     print >> output, "**********************************"
     output.flush()
+    joblib.dump(rbfsvr, outputfile + 'rbfsvr.pkl')
     
-    print >> output, "**********************************"
-    print >> output, "Searching for SVR RBF Parameters"
+#    print >> output, "**********************************"
+#    print >> output, "Searching for SVR RBF Parameters"
 	
 #    rbfparameters = {
 #         'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
@@ -65,75 +69,75 @@ def compute_regression_results(features, goals, outputfile):
 #    print >> output, search.grid_scores_
 #    output.flush()
 	
-    rbfparameters = {
-         'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-         'gamma': [pow(2, x) for x in range(-13, -9, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
-    search.fit(vector, targets)
-    print >> output, "RBF SVR Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, "Best Parameters: ", search.best_params_
-    print >> output, "Mean-Squared-Error Score: ", search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
-    output.flush()
+    # rbfparameters = {
+         # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+         # 'gamma': [pow(2, x) for x in range(-13, -9, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
+    # search.fit(vector, targets)
+    # print >> output, "RBF SVR Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, "Best Parameters: ", search.best_params_
+    # print >> output, "Mean-Squared-Error Score: ", search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    # output.flush()
 	
-    rbfparameters = {
-         'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-         'gamma': [pow(2, x) for x in range(-9, -5, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
-    search.fit(vector, targets)
-    print >> output, "RBF SVR Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, "Best Parameters: ", search.best_params_
-    print >> output, "Mean-Squared-Error Score: ", search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
-    output.flush()
+    # rbfparameters = {
+         # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+         # 'gamma': [pow(2, x) for x in range(-9, -5, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
+    # search.fit(vector, targets)
+    # print >> output, "RBF SVR Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, "Best Parameters: ", search.best_params_
+    # print >> output, "Mean-Squared-Error Score: ", search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    # output.flush()
 	
-    rbfparameters = {
-         'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-         'gamma': [pow(2, x) for x in range(-5, -1, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
-    search.fit(vector, targets)
-    print >> output, "RBF SVR Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, "Best Parameters: ", search.best_params_
-    print >> output, "Mean-Squared-Error Score: ", search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
-    output.flush()
+    # rbfparameters = {
+         # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+         # 'gamma': [pow(2, x) for x in range(-5, -1, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
+    # search.fit(vector, targets)
+    # print >> output, "RBF SVR Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, "Best Parameters: ", search.best_params_
+    # print >> output, "Mean-Squared-Error Score: ", search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    # output.flush()
 	
-    rbfparameters = {
-         'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-         'gamma': [pow(2, x) for x in range(-1, 3, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
-    search.fit(vector, targets)
-    print >> output, "RBF SVR Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, "Best Parameters: ", search.best_params_
-    print >> output, "Mean-Squared-Error Score: ", search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
-    output.flush()
+    # rbfparameters = {
+         # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+         # 'gamma': [pow(2, x) for x in range(-1, 3, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
+    # search.fit(vector, targets)
+    # print >> output, "RBF SVR Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, "Best Parameters: ", search.best_params_
+    # print >> output, "Mean-Squared-Error Score: ", search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    # output.flush()
 
-    rbfparameters = {
-         'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
-         'gamma': [pow(2, x) for x in range(3, 9, 2)]  # Possible gamma values for the SVM.
-    }
-    search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
-    search.fit(vector, targets)
-    print >> output, "RBF SVR Best Estimator:"
-    print >> output, search.best_estimator_
-    print >> output, "Best Parameters: ", search.best_params_
-    print >> output, "Mean-Squared-Error Score: ", search.best_score_
-    print >> output, "Grid Scores:"
-    print >> output, search.grid_scores_
-    output.flush()
+    # rbfparameters = {
+         # 'C': [pow(2, x) for x in range(-5,17, 2)],  # Possible error weights for the SVM.
+         # 'gamma': [pow(2, x) for x in range(3, 9, 2)]  # Possible gamma values for the SVM.
+    # }
+    # search = GridSearchCV(SVR(), rbfparameters, cv=5, n_jobs=-1, verbose=1, scoring="mean_squared_error")
+    # search.fit(vector, targets)
+    # print >> output, "RBF SVR Best Estimator:"
+    # print >> output, search.best_estimator_
+    # print >> output, "Best Parameters: ", search.best_params_
+    # print >> output, "Mean-Squared-Error Score: ", search.best_score_
+    # print >> output, "Grid Scores:"
+    # print >> output, search.grid_scores_
+    # output.flush()
 
 
 
