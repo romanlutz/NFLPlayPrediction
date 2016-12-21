@@ -1,13 +1,45 @@
+Based on the statistics of all NFL seasons from 2009 to present, we'll try to predict the outcome of a play based on the situation and under the assumption of a certain play. This way, one could plug in every possible play and predict the best play to choose.
+Possible applications include participation in NFL call the play or even NFL Offensive Coordinators could use our prediction tool to find out what kind of play is the most promising.
+
+We use the nflgame API that gets its data directly from NFL.com. The format is as follows:
+(DEN, DEN 22, Q4, 3 and 8) (4:42) (Shotgun) P.Manning pass short left to D.Thomas for 78 yards, TOUCHDOWN. Penalty on BAL-E.Dumervil, Defensive Offside, declined.
+However, there are lots of special cases and inconsistencies that we're removing or adjusting to get structured data.
+
+Features
+=========
+* Team
+* Opponent
+* Quarter
+* Time
+* Field position
+* Down
+* Yards to go
+* Shotgun formation (0/1)
+* Pass (0/1)
+* Side
+  -> Pass: left / middle / right
+  -> Run: left end / left tackle / left guard / middle / right guard / right tackle / right end
+* Pass length (short / deep)
+* QB Run (0/1)
+
+After filtering out irrelevant plays (special teams, "No Play"), we extracted information from the strings about the play. The labels show the success of the play, i.e. TD or not, how many yards, first down or not, possibly a combination of these (as a real value).
+
+Our Approach:
+Feature extraction: What features do we use? What plays are ignored?
+Prediction: Probability of success? What's a success? We use a variety of different measures for that.
+
+Machine Learning methods:
+Classification (Success / Fail): SVM, Nearest Neighbors, Decision Trees, Logistic Regression, Neural Nets
+Regression (Yards): SVR, Neural Nets, Linear Regression
+Dimensionality reduction: PCA
+Prediction: Play with highest probability (or score?) of success
+Evaluation: k-fold cross validation
+
+Installation:
 In order to use our NFL Play Prediction, you will need to install the nflgame API with the following command:
-
 sudo pip install nflgame
-
 Another requirement is the scikit-learn package for Machine Learning operations:
-
 sudo pip install scikit-learn
-
 If you already have numpy and scipy installed, use the -U option in the previous command.
-
 If you want to use the Neural Network prediction, you need to run this first:
-
 easy_install pybrain
